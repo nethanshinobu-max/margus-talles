@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<! DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -12,20 +12,20 @@
         }
         body {
             font-family: 'Montserrat', Arial, sans-serif;
-            background:   #fff;
+            background: #fff;
             padding: 60px 20px;
             text-align: center;
         }
         h1 {
             font-size: 48px;
             color: #2c2c2c;
-            margin:   0 0 10px 0;
+            margin:  0 0 10px 0;
             font-weight: 600;
         }
         h2 {
-            font-size:   18px;
+            font-size: 18px;
             color: #95a5a6;
-            margin:  0 0 50px 0;
+            margin: 0 0 50px 0;
             font-weight: 300;
         }
         h2 strong {
@@ -39,42 +39,51 @@
         }
         .talles-grid {
             display: grid;
-            grid-template-columns: repeat(4, 100px);
+            grid-template-columns: repeat(4, 140px);
             gap: 20px;
             justify-content: center;
-            max-width: 500px;
+            max-width: 650px;
             margin: 0 auto 60px;
         }
-        .  talle-link {
+        . talle-link {
             text-decoration: none;
         }
         .cuadrado {
-            width: 100px;
-            height: 100px;
+            width: 140px;
+            height: 140px;
             background: transparent;
             border: 2px solid #d4849c;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             transition: all 0.3s ease;
             cursor: pointer;
+            padding: 10px;
         }
         .cuadrado:hover {
             background: #d4849c;
-            transform: translateY(-2px);
-            box-shadow:   0 5px 15px rgba(212, 132, 156, 0.3);
+            transform:  translateY(-2px);
+            box-shadow:  0 5px 15px rgba(212, 132, 156, 0.3);
         }
-        .cuadrado span {
-            font-size: 32px;
+        .talle-numero {
+            font-size: 36px;
             color: #d4849c;
-            font-weight: 600;
-            border-bottom: 2px solid #d4849c;
-            padding-bottom: 2px;
-            transition: all 0.3s ease;
+            font-weight: 700;
+            margin-bottom: 8px;
+            transition: color 0.3s ease;
         }
-        .cuadrado:hover span {
+        .talle-medidas {
+            font-size: 11px;
+            color: #2c2c2c;
+            font-weight: 600;
+            line-height: 1.4;
+            text-align: center;
+            transition: color 0.3s ease;
+        }
+        .cuadrado:hover .talle-numero,
+        .cuadrado:hover .talle-medidas {
             color: #fff;
-            border-bottom-color: #fff;
         }
         .corazon {
             margin-top: 60px;
@@ -86,16 +95,19 @@
             h2 {
                 font-size: 16px;
             }
-            .  talles-grid {
-                grid-template-columns: repeat(3, 80px);
+            . talles-grid {
+                grid-template-columns: repeat(2, 120px);
                 gap: 15px;
             }
-            .  cuadrado {
-                width: 80px;
-                height: 80px;
+            . cuadrado {
+                width: 120px;
+                height: 120px;
             }
-            .cuadrado span {
-                font-size: 24px;
+            .talle-numero {
+                font-size: 28px;
+            }
+            .talle-medidas {
+                font-size: 9px;
             }
         }
     </style>
@@ -107,67 +119,115 @@
     
     <div class="talles-grid">
         <a href="https://margusoficial.com/marcas/cenitho/? Talles=34" target="_blank" class="talle-link">
-            <div class="cuadrado"><span>34</span></div>
+            <div class="cuadrado">
+                <div class="talle-numero">34</div>
+                <div class="talle-medidas">CINTURA 65-68<br>CADERA 88-92</div>
+            </div>
         </a>
         
-        <a href="https://margusoficial.com/marcas/cenitho/?Talles=36" target="_blank" class="talle-link">
-            <div class="cuadrado"><span>36</span></div>
+        <a href="https://margusoficial.com/marcas/cenitho/? Talles=36" target="_blank" class="talle-link">
+            <div class="cuadrado">
+                <div class="talle-numero">36</div>
+                <div class="talle-medidas">CINTURA 69-73<br>CADERA 93-95</div>
+            </div>
         </a>
         
         <a href="https://margusoficial.com/marcas/cenitho/?Talles=38" target="_blank" class="talle-link">
-            <div class="cuadrado"><span>38</span></div>
+            <div class="cuadrado">
+                <div class="talle-numero">38</div>
+                <div class="talle-medidas">CINTURA 74-77<br>CADERA 96-99</div>
+            </div>
         </a>
         
         <a href="https://margusoficial.com/marcas/cenitho/?Talles=40" target="_blank" class="talle-link">
-            <div class="cuadrado"><span>40</span></div>
+            <div class="cuadrado">
+                <div class="talle-numero">40</div>
+                <div class="talle-medidas">CINTURA 78-80<br>CADERA 100-103</div>
+            </div>
         </a>
         
-        <a href="https://margusoficial.com/marcas/cenitho/?Talles=42" target="_blank" class="talle-link">
-            <div class="cuadrado"><span>42</span></div>
+        <a href="https://margusoficial.com/marcas/cenitho/? Talles=42" target="_blank" class="talle-link">
+            <div class="cuadrado">
+                <div class="talle-numero">42</div>
+                <div class="talle-medidas">CINTURA 82-84<br>CADERA 104-106</div>
+            </div>
         </a>
         
         <a href="https://margusoficial.com/marcas/cenitho/?Talles=44" target="_blank" class="talle-link">
-            <div class="cuadrado"><span>44</span></div>
+            <div class="cuadrado">
+                <div class="talle-numero">44</div>
+                <div class="talle-medidas">CINTURA 85-88<br>CADERA 108-110</div>
+            </div>
         </a>
         
         <a href="https://margusoficial.com/marcas/cenitho/?Talles=46" target="_blank" class="talle-link">
-            <div class="cuadrado"><span>46</span></div>
+            <div class="cuadrado">
+                <div class="talle-numero">46</div>
+                <div class="talle-medidas">CINTURA 89-92<br>CADERA 111-114</div>
+            </div>
         </a>
         
-        <a href="https://margusoficial.com/marcas/cenitho/?Talles=48" target="_blank" class="talle-link">
-            <div class="cuadrado"><span>48</span></div>
+        <a href="https://margusoficial.com/marcas/cenitho/? Talles=48" target="_blank" class="talle-link">
+            <div class="cuadrado">
+                <div class="talle-numero">48</div>
+                <div class="talle-medidas">CINTURA 93-96<br>CADERA 115-118</div>
+            </div>
         </a>
         
         <a href="https://margusoficial.com/marcas/cenitho/?Talles=50" target="_blank" class="talle-link">
-            <div class="cuadrado"><span>50</span></div>
+            <div class="cuadrado">
+                <div class="talle-numero">50</div>
+                <div class="talle-medidas">CINTURA 97-100<br>CADERA 119-122</div>
+            </div>
         </a>
         
-        <a href="https://margusoficial.com/marcas/cenitho/?Talles=52" target="_blank" class="talle-link">
-            <div class="cuadrado"><span>52</span></div>
+        <a href="https://margusoficial.com/marcas/cenitho/? Talles=52" target="_blank" class="talle-link">
+            <div class="cuadrado">
+                <div class="talle-numero">52</div>
+                <div class="talle-medidas">CINTURA 101-105<br>CADERA 124-128</div>
+            </div>
         </a>
         
         <a href="https://margusoficial.com/marcas/cenitho/?Talles=54" target="_blank" class="talle-link">
-            <div class="cuadrado"><span>54</span></div>
+            <div class="cuadrado">
+                <div class="talle-numero">54</div>
+                <div class="talle-medidas">CINTURA 106-109<br>CADERA 127-132</div>
+            </div>
         </a>
         
         <a href="https://margusoficial.com/marcas/cenitho/?Talles=56" target="_blank" class="talle-link">
-            <div class="cuadrado"><span>56</span></div>
+            <div class="cuadrado">
+                <div class="talle-numero">56</div>
+                <div class="talle-medidas">CINTURA 110-115<br>CADERA 133-137</div>
+            </div>
         </a>
         
         <a href="https://margusoficial.com/marcas/cenitho/?Talles=58" target="_blank" class="talle-link">
-            <div class="cuadrado"><span>58</span></div>
+            <div class="cuadrado">
+                <div class="talle-numero">58</div>
+                <div class="talle-medidas">CINTURA 116-120<br>CADERA 138-143</div>
+            </div>
         </a>
         
         <a href="https://margusoficial.com/marcas/cenitho/?Talles=60" target="_blank" class="talle-link">
-            <div class="cuadrado"><span>60</span></div>
+            <div class="cuadrado">
+                <div class="talle-numero">60</div>
+                <div class="talle-medidas">CINTURA 121-130<br>CADERA 144-150</div>
+            </div>
         </a>
         
         <a href="https://margusoficial.com/marcas/cenitho/?Talles=62" target="_blank" class="talle-link">
-            <div class="cuadrado"><span>62</span></div>
+            <div class="cuadrado">
+                <div class="talle-numero">62</div>
+                <div class="talle-medidas">CINTURA 112-135<br>CADERA 151-155</div>
+            </div>
         </a>
         
-        <a href="https://margusoficial.com/marcas/cenitho/?Talles=64" target="_blank" class="talle-link">
-            <div class="cuadrado"><span>64</span></div>
+        <a href="https://margusoficial.com/marcas/cenitho/? Talles=64" target="_blank" class="talle-link">
+            <div class="cuadrado">
+                <div class="talle-numero">64</div>
+                <div class="talle-medidas">CINTURA 136-140<br>CADERA 156-160</div>
+            </div>
         </a>
     </div>
     
