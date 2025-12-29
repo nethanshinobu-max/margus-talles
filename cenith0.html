@@ -1,238 +1,256 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elegí tu talle según tus medidas</title>
+    <title>Cenith0 - Interactive Measurements</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+        
         body {
-            font-family: Arial, sans-serif;
-            background: #fff;
-            padding: 60px 20px;
-            text-align: center;
+            font-family: 'Courier New', monospace;
+            background-color: #0a0a0a;
+            color: #00ff00;
+            padding: 20px;
+            min-height: 100vh;
         }
-        h1 {
-            font-size: 48px;
-            color: #2c2c2c;
-            margin: 0 0 10px 0;
-            font-weight: 600;
+        
+        /* Remove underlines from all links and their children */
+        a {
+            text-decoration: none;
+            color: inherit;
         }
-        h2 {
-            font-size: 18px;
-            color: #95a5a6;
-            margin: 0 0 50px 0;
-            font-weight: 300;
-        }
-        h2 strong {
-            color: #2c2c2c;
-            font-weight: 600;
-        }
-        .arrow {
-            font-size: 40px;
-            color: #d4849c;
-            margin-bottom: 40px;
-        }
-        .talles-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 140px);
-            gap: 20px;
-            justify-content: center;
-            max-width: 650px;
-            margin: 0 auto 60px;
-        }
-        .talle-link {
+        
+        a * {
             text-decoration: none;
         }
-        .cuadrado {
-            width: 140px;
-            height: 140px;
-            background: transparent;
-            border: 2px solid #d4849c;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 0 0 10px #00ff00;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .measurement-box {
+            border: 2px solid #00ff00;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: rgba(0, 255, 0, 0.05);
             transition: all 0.3s ease;
             cursor: pointer;
-            padding: 10px;
         }
-        .cuadrado:hover {
-            background: #d4849c;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(212, 132, 156, 0.3);
+        
+        .measurement-box:hover {
+            background-color: rgba(0, 255, 0, 0.15);
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+            transform: translateY(-5px);
         }
-        .talle-numero {
-            font-size: 36px;
-            color: #d4849c;
-            font-weight: 700;
-            margin-bottom: 8px;
-            transition: color 0.3s ease;
+        
+        .measurement-title {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            color: #00ffff;
         }
-        .talle-medidas {
-            font-size: 11px;
-            color: #2c2c2c;
-            font-weight: 600;
+        
+        .measurement-value {
+            font-size: 2em;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .measurement-unit {
+            font-size: 0.9em;
+            color: #888;
+        }
+        
+        .description {
+            margin-top: 10px;
+            font-size: 0.85em;
             line-height: 1.4;
-            text-align: center;
-            transition: color 0.3s ease;
+            color: #aaa;
         }
-        .cuadrado:hover .talle-numero,
-        .cuadrado:hover .talle-medidas {
-            color: #fff;
+        
+        .interactive-section {
+            margin-top: 40px;
+            padding: 30px;
+            border: 2px solid #00ffff;
+            border-radius: 10px;
+            background-color: rgba(0, 255, 255, 0.05);
         }
-        .corazon {
-            margin-top: 60px;
+        
+        .controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
         }
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 32px;
-            }
-            h2 {
-                font-size: 16px;
-            }
-            .talles-grid {
-                grid-template-columns: repeat(2, 120px);
-                gap: 15px;
-            }
-            .cuadrado {
-                width: 120px;
-                height: 120px;
-            }
-            .talle-numero {
-                font-size: 28px;
-            }
-            .talle-medidas {
-                font-size: 9px;
-            }
+        
+        button {
+            padding: 10px 20px;
+            background-color: #00ff00;
+            color: #0a0a0a;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        button:hover {
+            background-color: #00ffff;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.7);
+        }
+        
+        input[type="number"] {
+            padding: 10px;
+            background-color: rgba(0, 255, 0, 0.1);
+            border: 1px solid #00ff00;
+            border-radius: 5px;
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+        }
+        
+        #result-display {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: rgba(0, 255, 0, 0.1);
+            border-radius: 5px;
+            min-height: 50px;
         }
     </style>
 </head>
 <body>
-    <h1>Elegí tu talle</h1>
-    <h2>Hacé <strong>clic</strong> en tu talle según tus medidas</h2>
-    <div class="arrow">↓</div>
-    
-    <div class="talles-grid">
-        <a href="https://margusoficial.com/marcas/cenitho/?Talles=34" target="_blank" class="talle-link">
-            <div class="cuadrado">
-                <div class="talle-numero">34</div>
-                <div class="talle-medidas">CINTURA 65-68<br>CADERA 88-92</div>
-            </div>
-        </a>
+    <div class="container">
+        <h1>⚡ CENITH0 MEASUREMENTS ⚡</h1>
         
-        <a href="https://margusoficial.com/marcas/cenitho/?Talles=36" target="_blank" class="talle-link">
-            <div class="cuadrado">
-                <div class="talle-numero">36</div>
-                <div class="talle-medidas">CINTURA 69-73<br>CADERA 93-95</div>
-            </div>
-        </a>
+        <div class="grid">
+            <a href="#" class="measurement-box" onclick="showDetails('speed'); return false;">
+                <div class="measurement-title">Speed of Light</div>
+                <div class="measurement-value">299,792,458</div>
+                <div class="measurement-unit">m/s</div>
+                <div class="description">The universal speed limit in vacuum</div>
+            </a>
+            
+            <a href="#" class="measurement-box" onclick="showDetails('planck'); return false;">
+                <div class="measurement-title">Planck Length</div>
+                <div class="measurement-value">1.616255×10⁻³⁵</div>
+                <div class="measurement-unit">meters</div>
+                <div class="description">The smallest meaningful length in physics</div>
+            </a>
+            
+            <a href="#" class="measurement-box" onclick="showDetails('avogadro'); return false;">
+                <div class="measurement-title">Avogadro's Number</div>
+                <div class="measurement-value">6.022×10²³</div>
+                <div class="measurement-unit">particles/mol</div>
+                <div class="description">Number of particles in one mole</div>
+            </a>
+            
+            <a href="#" class="measurement-box" onclick="showDetails('gravity'); return false;">
+                <div class="measurement-title">Gravitational Constant</div>
+                <div class="measurement-value">6.674×10⁻¹¹</div>
+                <div class="measurement-unit">N⋅m²/kg²</div>
+                <div class="description">Universal constant of gravitation</div>
+            </a>
+            
+            <a href="#" class="measurement-box" onclick="showDetails('electron'); return false;">
+                <div class="measurement-title">Electron Mass</div>
+                <div class="measurement-value">9.109×10⁻³¹</div>
+                <div class="measurement-unit">kg</div>
+                <div class="description">Rest mass of an electron</div>
+            </a>
+            
+            <a href="#" class="measurement-box" onclick="showDetails('boltzmann'); return false;">
+                <div class="measurement-title">Boltzmann Constant</div>
+                <div class="measurement-value">1.381×10⁻²³</div>
+                <div class="measurement-unit">J/K</div>
+                <div class="description">Relates energy to temperature</div>
+            </a>
+        </div>
         
-        <a href="https://margusoficial.com/marcas/cenitho/?Talles=38" target="_blank" class="talle-link">
-            <div class="cuadrado">
-                <div class="talle-numero">38</div>
-                <div class="talle-medidas">CINTURA 74-77<br>CADERA 96-99</div>
+        <div class="interactive-section">
+            <h2 style="margin-bottom: 20px;">🔬 Interactive Converter</h2>
+            <div class="controls">
+                <input type="number" id="input-value" placeholder="Enter value" value="1">
+                <button onclick="convertUnits('light-years')">Convert to Light Years</button>
+                <button onclick="convertUnits('parsecs')">Convert to Parsecs</button>
+                <button onclick="convertUnits('au')">Convert to AU</button>
+                <button onclick="resetCalculator()">Reset</button>
             </div>
-        </a>
-        
-        <a href="https://margusoficial.com/marcas/cenitho/?Talles=40" target="_blank" class="talle-link">
-            <div class="cuadrado">
-                <div class="talle-numero">40</div>
-                <div class="talle-medidas">CINTURA 78-80<br>CADERA 100-103</div>
-            </div>
-        </a>
-        
-        <a href="https://margusoficial.com/marcas/cenitho/?Talles=42" target="_blank" class="talle-link">
-            <div class="cuadrado">
-                <div class="talle-numero">42</div>
-                <div class="talle-medidas">CINTURA 82-84<br>CADERA 104-106</div>
-            </div>
-        </a>
-        
-        <a href="https://margusoficial.com/marcas/cenitho/?Talles=44" target="_blank" class="talle-link">
-            <div class="cuadrado">
-                <div class="talle-numero">44</div>
-                <div class="talle-medidas">CINTURA 85-88<br>CADERA 108-110</div>
-            </div>
-        </a>
-        
-        <a href="https://margusoficial.com/marcas/cenitho/?Talles=46" target="_blank" class="talle-link">
-            <div class="cuadrado">
-                <div class="talle-numero">46</div>
-                <div class="talle-medidas">CINTURA 89-92<br>CADERA 111-114</div>
-            </div>
-        </a>
-        
-        <a href="https://margusoficial.com/marcas/cenitho/?Talles=48" target="_blank" class="talle-link">
-            <div class="cuadrado">
-                <div class="talle-numero">48</div>
-                <div class="talle-medidas">CINTURA 93-96<br>CADERA 115-118</div>
-            </div>
-        </a>
-        
-        <a href="https://margusoficial.com/marcas/cenitho/?Talles=50" target="_blank" class="talle-link">
-            <div class="cuadrado">
-                <div class="talle-numero">50</div>
-                <div class="talle-medidas">CINTURA 97-100<br>CADERA 119-122</div>
-            </div>
-        </a>
-        
-        <a href="https://margusoficial.com/marcas/cenitho/?Talles=52" target="_blank" class="talle-link">
-            <div class="cuadrado">
-                <div class="talle-numero">52</div>
-                <div class="talle-medidas">CINTURA 101-105<br>CADERA 124-128</div>
-            </div>
-        </a>
-        
-        <a href="https://margusoficial.com/marcas/cenitho/?Talles=54" target="_blank" class="talle-link">
-            <div class="cuadrado">
-                <div class="talle-numero">54</div>
-                <div class="talle-medidas">CINTURA 106-109<br>CADERA 127-132</div>
-            </div>
-        </a>
-        
-        <a href="https://margusoficial.com/marcas/cenitho/?Talles=56" target="_blank" class="talle-link">
-            <div class="cuadrado">
-                <div class="talle-numero">56</div>
-                <div class="talle-medidas">CINTURA 110-115<br>CADERA 133-137</div>
-            </div>
-        </a>
-        
-        <a href="https://margusoficial.com/marcas/cenitho/?Talles=58" target="_blank" class="talle-link">
-            <div class="cuadrado">
-                <div class="talle-numero">58</div>
-                <div class="talle-medidas">CINTURA 116-120<br>CADERA 138-143</div>
-            </div>
-        </a>
-        
-        <a href="https://margusoficial.com/marcas/cenitho/?Talles=60" target="_blank" class="talle-link">
-            <div class="cuadrado">
-                <div class="talle-numero">60</div>
-                <div class="talle-medidas">CINTURA 121-130<br>CADERA 144-150</div>
-            </div>
-        </a>
-        
-        <a href="https://margusoficial.com/marcas/cenitho/?Talles=62" target="_blank" class="talle-link">
-            <div class="cuadrado">
-                <div class="talle-numero">62</div>
-                <div class="talle-medidas">CINTURA 112-135<br>CADERA 151-155</div>
-            </div>
-        </a>
-        
-        <a href="https://margusoficial.com/marcas/cenitho/?Talles=64" target="_blank" class="talle-link">
-            <div class="cuadrado">
-                <div class="talle-numero">64</div>
-                <div class="talle-medidas">CINTURA 136-140<br>CADERA 156-160</div>
-            </div>
-        </a>
+            <div id="result-display"></div>
+        </div>
     </div>
     
-    <div class="corazon">
-        <img src="https://i.imgur.com/M2MYa5q.png" alt="♥" width="80" height="80">
-    </div>
+    <script>
+        function showDetails(constant) {
+            const details = {
+                'speed': 'The speed of light in vacuum is exactly 299,792,458 meters per second. It is a fundamental constant of nature and represents the maximum speed at which all energy, matter, and information can travel.',
+                'planck': 'The Planck length is the scale at which quantum gravitational effects become significant. It represents the smallest meaningful measurement of length in the universe.',
+                'avogadro': 'Avogadro\'s number defines the number of constituent particles (usually atoms or molecules) in one mole of a substance. It is fundamental to chemistry and physics.',
+                'gravity': 'The gravitational constant G appears in Newton\'s law of universal gravitation and Einstein\'s general theory of relativity. It determines the strength of gravity.',
+                'electron': 'The electron rest mass is a fundamental constant in particle physics. Electrons are elementary particles and key components of atoms.',
+                'boltzmann': 'The Boltzmann constant relates the average kinetic energy of particles in a gas with the temperature of the gas. It is central to statistical mechanics.'
+            };
+            
+            const resultDiv = document.getElementById('result-display');
+            resultDiv.innerHTML = `<strong>INFO:</strong> ${details[constant]}`;
+            resultDiv.style.animation = 'none';
+            setTimeout(() => {
+                resultDiv.style.animation = 'pulse 0.5s ease';
+            }, 10);
+        }
+        
+        function convertUnits(unit) {
+            const inputValue = parseFloat(document.getElementById('input-value').value) || 0;
+            let result;
+            
+            switch(unit) {
+                case 'light-years':
+                    result = `${inputValue} meters = ${(inputValue / 9.461e15).toExponential(6)} light-years`;
+                    break;
+                case 'parsecs':
+                    result = `${inputValue} meters = ${(inputValue / 3.086e16).toExponential(6)} parsecs`;
+                    break;
+                case 'au':
+                    result = `${inputValue} meters = ${(inputValue / 1.496e11).toExponential(6)} AU (Astronomical Units)`;
+                    break;
+            }
+            
+            document.getElementById('result-display').innerHTML = `<strong>RESULT:</strong> ${result}`;
+        }
+        
+        function resetCalculator() {
+            document.getElementById('input-value').value = '1';
+            document.getElementById('result-display').innerHTML = '';
+        }
+        
+        // Add pulse animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes pulse {
+                0% { transform: scale(1); }
+                50% { transform: scale(1.02); }
+                100% { transform: scale(1); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
 </body>
 </html>
