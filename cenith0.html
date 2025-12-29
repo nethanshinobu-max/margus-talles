@@ -1,9 +1,9 @@
-<! DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CENITHO - Guía de Talles</title>
+    <title>Elegí tu talle según tus medidas</title>
     <style>
         * {
             margin: 0;
@@ -11,107 +11,113 @@
             box-sizing: border-box;
         }
         body {
-            font-family: Arial, sans-serif;
-            background:  #f5f5f5;
-            padding: 40px 20px;
+            font-family: 'Montserrat', Arial, sans-serif;
+            background:  #fff;
+            padding: 60px 20px;
             text-align: center;
         }
         h1 {
-            font-size: 60px;
+            font-size: 48px;
             color: #2c2c2c;
-            margin:  20px 0;
+            margin:  0 0 10px 0;
+            font-weight: 600;
         }
         h2 {
-            font-size: 20px;
+            font-size:  18px;
             color: #95a5a6;
-            margin:  10px 0 40px 0;
+            margin: 0 0 50px 0;
             font-weight: 300;
         }
         h2 strong {
-            color: #000;
+            color: #2c2c2c;
+            font-weight: 600;
         }
         .arrow {
-            font-size: 50px;
+            font-size: 40px;
             color: #d4849c;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
         }
-        . talles-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
+        .talles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 120px));
+            gap: 25px;
             justify-content: center;
-            max-width: 800px;
-            margin: 0 auto 40px;
+            max-width: 700px;
+            margin: 0 auto 60px;
         }
-        .talle-link {
+        . talle-link {
             text-decoration: none;
             text-align: center;
         }
         .circulo {
-            width: 150px;
-            height: 150px;
+            width: 120px;
+            height: 120px;
             border-radius: 50%;
             background: transparent;
-            border: 3px solid #d4849c;
+            border: 2px solid #d4849c;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: all 0.3s ease;
             cursor: pointer;
+            margin: 0 auto 8px;
         }
-        .circulo:hover {
+        . circulo:hover {
             background: #d4849c;
-            transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(212, 132, 156, 0.4);
+            transform: translateY(-3px);
+            box-shadow:  0 8px 20px rgba(212, 132, 156, 0.3);
         }
         .circulo span {
-            font-size: 32px;
+            font-size: 28px;
             color: #d4849c;
-            font-weight: bold;
+            font-weight: 600;
             transition: color 0.3s ease;
         }
         .circulo:hover span {
             color: #fff;
         }
         .talle-label {
-            font-size: 16px;
+            font-size: 14px;
             color: #2c2c2c;
-            font-weight: bold;
-            margin-top: 10px;
+            font-weight: 500;
         }
         .corazon {
-            margin-top: 50px;
+            margin-top: 60px;
         }
         @media (max-width: 768px) {
             h1 {
-                font-size: 40px;
+                font-size: 32px;
+            }
+            h2 {
+                font-size: 16px;
             }
             . talles-grid {
-                gap: 15px;
+                grid-template-columns: repeat(3, 90px);
+                gap: 18px;
             }
             . circulo {
-                width: 100px;
-                height: 100px;
+                width: 90px;
+                height: 90px;
                 border:  2px solid #d4849c;
             }
             .circulo span {
-                font-size: 24px;
+                font-size: 22px;
             }
         }
     </style>
 </head>
 <body>
-    <h1>Elegí tu talle - CENITHO</h1>
+    <h1>Elegí tu talle</h1>
     <h2>Hacé <strong>clic</strong> en tu talle según tus medidas</h2>
     <div class="arrow">↓</div>
     
     <div class="talles-grid">
-        <a href="https://margusoficial.com/marcas/cenitho/?Talles=34" target="_blank" class="talle-link">
+        <a href="https://margusoficial.com/marcas/cenitho/? Talles=34" target="_blank" class="talle-link">
             <div class="circulo"><span>34</span></div>
             <div class="talle-label">Talle 34</div>
         </a>
         
-        <a href="https://margusoficial.com/marcas/cenitho/? Talles=36" target="_blank" class="talle-link">
+        <a href="https://margusoficial.com/marcas/cenitho/?Talles=36" target="_blank" class="talle-link">
             <div class="circulo"><span>36</span></div>
             <div class="talle-label">Talle 36</div>
         </a>
@@ -121,7 +127,7 @@
             <div class="talle-label">Talle 38</div>
         </a>
         
-        <a href="https://margusoficial.com/marcas/cenitho/?Talles=40" target="_blank" class="talle-link">
+        <a href="https://margusoficial.com/marcas/cenitho/? Talles=40" target="_blank" class="talle-link">
             <div class="circulo"><span>40</span></div>
             <div class="talle-label">Talle 40</div>
         </a>
@@ -188,7 +194,7 @@
     </div>
     
     <div class="corazon">
-        <img src="https://i.imgur.com/M2MYa5q. png" alt="Corazón" width="100" height="100">
+        <img src="https://i.imgur.com/M2MYa5q.png" alt="♥" width="80" height="80">
     </div>
 </body>
 </html>
