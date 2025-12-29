@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía de Talles - Margus</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .marca-name {
+            text-align: center;
+            color: #e91e63;
+            margin-bottom: 30px;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .talle-box {
+            background: white;
+            border-radius: 15px;
+            padding: 40px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border: 3px solid transparent;
+        }
+
+        .talle-box:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(233, 30, 99, 0.3);
+            border-color: #e91e63;
+        }
+
+        .talle-box.disabled {
+            background: #f0f0f0;
+            color: #ccc;
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+
+        .talle-box.disabled:hover {
+            transform: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-color: transparent;
+        }
+
+        .talle-number {
+            font-size: 3em;
+            font-weight: bold;
+            color: #e91e63;
+            margin-bottom: 10px;
+        }
+
+        .talle-box.disabled .talle-number {
+            color: #ccc;
+        }
+
+        .talle-info {
+            font-size: 0.9em;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .talle-box.disabled .talle-info {
+            color: #ccc;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .marca-name {
+                font-size: 1.2em;
+            }
+
+            .grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 15px;
+            }
+
+            .talle-number {
+                font-size: 2.5em;
+            }
+        }
+
+        .loading {
+            text-align: center;
+            color: #666;
+            font-size: 1.5em;
+            padding: 50px;
+        }
+
+        .error {
+            text-align: center;
+            color: #e91e63;
+            font-size: 1.2em;
+            padding: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Guía de Talles</h1>
+        <div class="marca-name" id="marcaName">Cargando...</div>
+        <div class="grid" id="tallesGrid">
+            <div class="loading">Cargando talles disponibles...</div>
+        </div>
+    </div>
+
+    <script>
+        // Obtener parámetros de la URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const marca = urlParams.get('marca');
+
+        // Todos los talles posibles
+        const todosLosTalles = [
+            { numero: 34, cintura: "65-68", cadera: "88-92" },
+            { numero: 36, cintura: "69-72", cadera: "93-96" },
+            { numero: 38, cintura: "73-76", cadera: "97-100" },
+            { numero: 40, cintura: "77-80", cadera: "101-104" },
+            { numero: 42, cintura: "82-84", cadera: "104-106" },
+            { numero: 44, cintura: "85-88", cadera: "107-110" },
+            { numero: 46, cintura: "89-92", cadera: "111-114" },
+            { numero: 48, cintura: "93-96", cadera: "115-118" },
+            { numero: 50, cintura: "97-100", cadera: "119-122" },
+            { numero: 52, cintura: "101-104", cadera: "123-126" },
+            { numero: 54, cintura: "105-108", cadera: "127-130" },
+            { numero: 56, cintura: "109-112", cadera: "131-134" },
+            { numero: 58, cintura: "113-116", cadera: "135-138" },
+            { numero: 60, cintura: "117-120", cadera: "139-142" },
+            { numero: 62, cintura: "121-124", cadera: "143-146" },
+            { numero: 64, cintura: "125-128", cadera: "147-150" }
+        ];
+
+        // Cargar datos de talles disponibles
+        async function cargarTalles() {
+            try {
+                const response = await fetch('talles-data.json');
+                const tallesData = await response.json();
+                
+                if (!marca) {
+                    document.getElementById('tallesGrid').innerHTML = 
+                        '<div class="error">Error: No se especificó una marca en la URL</div>';
+                    return;
+                }
+
+                const tallesDisponibles = tallesData[marca];
+                
+                if (!tallesDisponibles) {
+                    document.getElementById('tallesGrid').innerHTML = 
+                        '<div class="error">Error: Marca no encontrada</div>';
+                    return;
+                }
+
+                // Mostrar nombre de la marca
+                document.getElementById('marcaName').textContent = marca.toUpperCase().replace('-', ' ');
+
+                // Generar grid de talles
+                const grid = document.getElementById('tallesGrid');
+                grid.innerHTML = '';
+
+                todosLosTalles.forEach(talle => {
+                    const disponible = tallesDisponibles.includes(talle.numero);
+                    const div = document.createElement('div');
+                    div.className = `talle-box ${disponible ? '' : 'disabled'}`;
+                    
+                    div.innerHTML = `
+                        <div class="talle-number">${talle.numero}</div>
+                        <div class="talle-info">
+                            CINTURA ${talle.cintura}<br>
+                            CADERA ${talle.cadera}
+                        </div>
+                    `;
+
+                    if (disponible) {
+                        div.onclick = () => {
+                            window.location.href = `https://margusoficial.com/marcas/${marca}/?Talles=${talle.numero}`;
+                        };
+                    }
+
+                    grid.appendChild(div);
+                });
+
+            } catch (error) {
+                document.getElementById('tallesGrid').innerHTML = 
+                    '<div class="error">Error al cargar los datos de talles</div>';
+                console.error('Error:', error);
+            }
+        }
+
+        // Cargar talles al iniciar
+        cargarTalles();
+    </script>
+</body>
+</html>
