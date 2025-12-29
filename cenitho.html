@@ -1,4 +1,4 @@
-<! DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -36,11 +36,11 @@
             margin-bottom: 30px;
         }
         . talles-grid {
-            display: flex;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 150px));
             gap: 20px;
             justify-content: center;
-            max-width: 900px;
+            max-width: 1000px;
             margin: 0 auto 40px;
         }
         .talle-link {
@@ -52,11 +52,12 @@
             height: 150px;
             border-radius: 50%;
             background: #d4849c;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display:  flex;
+            align-items:  center;
+            justify-content:  center;
             transition: transform 0.3s, box-shadow 0.3s;
             cursor: pointer;
+            margin: 0 auto;
         }
         .circulo:hover {
             transform: scale(1.1);
@@ -73,7 +74,7 @@
             font-weight: bold;
             margin-top: 10px;
         }
-        . corazon {
+        .corazon {
             margin-top: 50px;
         }
         @media (max-width: 768px) {
@@ -81,6 +82,7 @@
                 font-size: 40px;
             }
             . talles-grid {
+                grid-template-columns: repeat(3, 100px);
                 gap: 15px;
             }
             . circulo {
@@ -114,12 +116,12 @@
             <div class="talle-label">Talle 38</div>
         </a>
         
-        <a href="https://margusoficial.com/marcas/cenitho/? Talles=40" target="_blank" class="talle-link">
+        <a href="https://margusoficial.com/marcas/cenitho/?Talles=40" target="_blank" class="talle-link">
             <div class="circulo"><span>40</span></div>
             <div class="talle-label">Talle 40</div>
         </a>
         
-        <a href="https://margusoficial.com/marcas/cenitho/?Talles=42" target="_blank" class="talle-link">
+        <a href="https://margusoficial.com/marcas/cenitho/? Talles=42" target="_blank" class="talle-link">
             <div class="circulo"><span>42</span></div>
             <div class="talle-label">Talle 42</div>
         </a>
@@ -134,12 +136,12 @@
             <div class="talle-label">Talle 46</div>
         </a>
         
-        <a href="https://margusoficial.com/marcas/cenitho/? Talles=48" target="_blank" class="talle-link">
+        <a href="https://margusoficial.com/marcas/cenitho/?Talles=48" target="_blank" class="talle-link">
             <div class="circulo"><span>48</span></div>
             <div class="talle-label">Talle 48</div>
         </a>
         
-        <a href="https://margusoficial.com/marcas/cenitho/?Talles=50" target="_blank" class="talle-link">
+        <a href="https://margusoficial.com/marcas/cenitho/? Talles=50" target="_blank" class="talle-link">
             <div class="circulo"><span>50</span></div>
             <div class="talle-label">Talle 50</div>
         </a>
@@ -154,12 +156,12 @@
             <div class="talle-label">Talle 54</div>
         </a>
         
-        <a href="https://margusoficial.com/marcas/cenitho/? Talles=56" target="_blank" class="talle-link">
+        <a href="https://margusoficial.com/marcas/cenitho/?Talles=56" target="_blank" class="talle-link">
             <div class="circulo"><span>56</span></div>
             <div class="talle-label">Talle 56</div>
         </a>
         
-        <a href="https://margusoficial.com/marcas/cenitho/?Talles=58" target="_blank" class="talle-link">
+        <a href="https://margusoficial.com/marcas/cenitho/? Talles=58" target="_blank" class="talle-link">
             <div class="circulo"><span>58</span></div>
             <div class="talle-label">Talle 58</div>
         </a>
@@ -174,7 +176,7 @@
             <div class="talle-label">Talle 62</div>
         </a>
         
-        <a href="https://margusoficial.com/marcas/cenitho/? Talles=64" target="_blank" class="talle-link">
+        <a href="https://margusoficial.com/marcas/cenitho/?Talles=64" target="_blank" class="talle-link">
             <div class="circulo"><span>64</span></div>
             <div class="talle-label">Talle 64</div>
         </a>
