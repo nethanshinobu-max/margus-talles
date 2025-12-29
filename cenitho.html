@@ -1,11 +1,15 @@
-<!DOCTYPE html>
+<! DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CENITHO - Guía de Talles</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
             font-family: Arial, sans-serif;
             background:  #f5f5f5;
@@ -13,30 +17,33 @@
             text-align: center;
         }
         h1 {
-            font-size: 50px;
+            font-size: 60px;
             color: #2c2c2c;
             margin:  20px 0;
         }
         h2 {
             font-size: 20px;
             color: #95a5a6;
-            margin:  10px 0 40px 0;
+            margin: 10px 0 40px 0;
+            font-weight: 300;
         }
-        h2 strong { color: #000; }
+        h2 strong {
+            color: #000;
+        }
         .arrow {
             font-size: 50px;
             color: #d4849c;
             margin-bottom: 30px;
         }
-        . talles {
+        . talles-grid {
             display: flex;
             flex-wrap: wrap;
             gap: 20px;
             justify-content: center;
             max-width: 900px;
-            margin: 0 auto;
+            margin: 0 auto 40px;
         }
-        .talle {
+        .talle-link {
             text-decoration: none;
             text-align: center;
         }
@@ -48,18 +55,19 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: transform 0.3s;
+            transition: transform 0.3s, box-shadow 0.3s;
             cursor: pointer;
         }
         .circulo:hover {
             transform: scale(1.1);
+            box-shadow: 0 10px 25px rgba(212, 132, 156, 0.5);
         }
         .circulo span {
             font-size: 32px;
             color: #fff;
             font-weight: bold;
         }
-        .label {
+        .talle-label {
             font-size: 16px;
             color: #2c2c2c;
             font-weight: bold;
@@ -68,6 +76,21 @@
         . corazon {
             margin-top: 50px;
         }
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 40px;
+            }
+            . talles-grid {
+                gap: 15px;
+            }
+            . circulo {
+                width: 100px;
+                height: 100px;
+            }
+            .circulo span {
+                font-size: 24px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -75,85 +98,85 @@
     <h2>Hacé <strong>clic</strong> en tu talle según tus medidas</h2>
     <div class="arrow">↓</div>
     
-    <div class="talles">
-        <a href="https://margusoficial.com/marcas/cenitho/? Talles=34" target="_blank" class="talle">
+    <div class="talles-grid">
+        <a href="https://margusoficial.com/marcas/cenitho/? Talles=34" target="_blank" class="talle-link">
             <div class="circulo"><span>34</span></div>
-            <div class="label">Talle 34</div>
+            <div class="talle-label">Talle 34</div>
         </a>
         
-        <a href="https://margusoficial.com/marcas/cenitho/?Talles=36" target="_blank" class="talle">
+        <a href="https://margusoficial.com/marcas/cenitho/?Talles=36" target="_blank" class="talle-link">
             <div class="circulo"><span>36</span></div>
-            <div class="label">Talle 36</div>
+            <div class="talle-label">Talle 36</div>
         </a>
         
-        <a href="https://margusoficial.com/marcas/cenitho/?Talles=38" target="_blank" class="talle">
+        <a href="https://margusoficial.com/marcas/cenitho/?Talles=38" target="_blank" class="talle-link">
             <div class="circulo"><span>38</span></div>
-            <div class="label">Talle 38</div>
+            <div class="talle-label">Talle 38</div>
         </a>
         
-        <a href="https://margusoficial.com/marcas/cenitho/?Talles=40" target="_blank" class="talle">
+        <a href="https://margusoficial.com/marcas/cenitho/? Talles=40" target="_blank" class="talle-link">
             <div class="circulo"><span>40</span></div>
-            <div class="label">Talle 40</div>
+            <div class="talle-label">Talle 40</div>
         </a>
         
-        <a href="https://margusoficial.com/marcas/cenitho/?Talles=42" target="_blank" class="talle">
+        <a href="https://margusoficial.com/marcas/cenitho/?Talles=42" target="_blank" class="talle-link">
             <div class="circulo"><span>42</span></div>
-            <div class="label">Talle 42</div>
+            <div class="talle-label">Talle 42</div>
         </a>
         
-        <a href="https://margusoficial.com/marcas/cenitho/? Talles=44" target="_blank" class="talle">
+        <a href="https://margusoficial.com/marcas/cenitho/?Talles=44" target="_blank" class="talle-link">
             <div class="circulo"><span>44</span></div>
-            <div class="label">Talle 44</div>
+            <div class="talle-label">Talle 44</div>
         </a>
         
-        <a href="https://margusoficial.com/marcas/cenitho/?Talles=46" target="_blank" class="talle">
+        <a href="https://margusoficial.com/marcas/cenitho/?Talles=46" target="_blank" class="talle-link">
             <div class="circulo"><span>46</span></div>
-            <div class="label">Talle 46</div>
+            <div class="talle-label">Talle 46</div>
         </a>
         
-        <a href="https://margusoficial.com/marcas/cenitho/?Talles=48" target="_blank" class="talle">
+        <a href="https://margusoficial.com/marcas/cenitho/? Talles=48" target="_blank" class="talle-link">
             <div class="circulo"><span>48</span></div>
-            <div class="label">Talle 48</div>
+            <div class="talle-label">Talle 48</div>
         </a>
         
-        <a href="https://margusoficial.com/marcas/cenitho/? Talles=50" target="_blank" class="talle">
+        <a href="https://margusoficial.com/marcas/cenitho/?Talles=50" target="_blank" class="talle-link">
             <div class="circulo"><span>50</span></div>
-            <div class="label">Talle 50</div>
+            <div class="talle-label">Talle 50</div>
         </a>
         
-        <a href="https://margusoficial.com/marcas/cenitho/?Talles=52" target="_blank" class="talle">
+        <a href="https://margusoficial.com/marcas/cenitho/?Talles=52" target="_blank" class="talle-link">
             <div class="circulo"><span>52</span></div>
-            <div class="label">Talle 52</div>
+            <div class="talle-label">Talle 52</div>
         </a>
         
-        <a href="https://margusoficial.com/marcas/cenitho/?Talles=54" target="_blank" class="talle">
+        <a href="https://margusoficial.com/marcas/cenitho/?Talles=54" target="_blank" class="talle-link">
             <div class="circulo"><span>54</span></div>
-            <div class="label">Talle 54</div>
+            <div class="talle-label">Talle 54</div>
         </a>
         
-        <a href="https://margusoficial.com/marcas/cenitho/? Talles=56" target="_blank" class="talle">
+        <a href="https://margusoficial.com/marcas/cenitho/? Talles=56" target="_blank" class="talle-link">
             <div class="circulo"><span>56</span></div>
-            <div class="label">Talle 56</div>
+            <div class="talle-label">Talle 56</div>
         </a>
         
-        <a href="https://margusoficial.com/marcas/cenitho/?Talles=58" target="_blank" class="talle">
+        <a href="https://margusoficial.com/marcas/cenitho/?Talles=58" target="_blank" class="talle-link">
             <div class="circulo"><span>58</span></div>
-            <div class="label">Talle 58</div>
+            <div class="talle-label">Talle 58</div>
         </a>
         
-        <a href="https://margusoficial.com/marcas/cenitho/?Talles=60" target="_blank" class="talle">
+        <a href="https://margusoficial.com/marcas/cenitho/?Talles=60" target="_blank" class="talle-link">
             <div class="circulo"><span>60</span></div>
-            <div class="label">Talle 60</div>
+            <div class="talle-label">Talle 60</div>
         </a>
         
-        <a href="https://margusoficial.com/marcas/cenitho/? Talles=62" target="_blank" class="talle">
+        <a href="https://margusoficial.com/marcas/cenitho/?Talles=62" target="_blank" class="talle-link">
             <div class="circulo"><span>62</span></div>
-            <div class="label">Talle 62</div>
+            <div class="talle-label">Talle 62</div>
         </a>
         
-        <a href="https://margusoficial.com/marcas/cenitho/?Talles=64" target="_blank" class="talle">
+        <a href="https://margusoficial.com/marcas/cenitho/? Talles=64" target="_blank" class="talle-link">
             <div class="circulo"><span>64</span></div>
-            <div class="label">Talle 64</div>
+            <div class="talle-label">Talle 64</div>
         </a>
     </div>
     
