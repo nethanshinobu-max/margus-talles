@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elegí tu talle</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            text-decoration: none;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+            color: #333;
+            text-decoration: none;
+        }
+        
+        .subtitle {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #666;
+            font-size: 18px;
+            text-decoration: none;
+        }
+        
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto 40px auto;
+        }
+        
+        .size-box {
+            background-color: transparent;
+            border: 2px solid #d4849c;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-decoration: none;
+            display: block;
+        }
+        
+        .size-box:hover {
+            background-color: #d4849c;
+        }
+        
+        .size-number {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+            text-decoration: none;
+        }
+        
+        .size-box:hover .size-number {
+            color: #fff;
+        }
+        
+        .measurement {
+            font-size: 14px;
+            margin: 5px 0;
+            color: #555;
+            text-decoration: none;
+        }
+        
+        .size-box:hover .measurement {
+            color: #fff;
+        }
+        
+        .heart-container {
+            text-align: center;
+            margin-top: 40px;
+        }
+        
+        .heart-container img {
+            max-width: 200px;
+            height: auto;
+        }
+        
+        @media (max-width: 768px) {
+            .grid-container {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .grid-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Elegí tu talle</h1>
+    <p class="subtitle">Hacé clic en tu talle según tus medidas</p>
+    
+    <div class="grid-container" id="talles-grid">
+        <!-- Los links se generan con JavaScript -->
+    </div>
+    
+    <div class="heart-container">
+        <img src="https://i.imgur.com/M2MYa5q.png" alt="Heart">
+    </div>
+    
+    <script>
+        // Lee el parámetro "marca" de la URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const marca = urlParams.get('marca') || 'cenitho';
+        
+        // Datos de talles
+        const talles = [
+            { numero: 34, cintura: '65-68', cadera: '88-92' },
+            { numero: 36, cintura: '69-73', cadera: '93-95' },
+            { numero: 38, cintura: '74-77', cadera: '96-99' },
+            { numero: 40, cintura: '78-80', cadera: '100-103' },
+            { numero: 42, cintura: '82-84', cadera: '104-106' },
+            { numero: 44, cintura: '85-88', cadera: '108-110' },
+            { numero: 46, cintura: '89-92', cadera: '111-114' },
+            { numero: 48, cintura: '93-96', cadera: '115-118' },
+            { numero: 50, cintura: '97-100', cadera: '119-122' },
+            { numero: 52, cintura: '101-105', cadera: '124-128' },
+            { numero: 54, cintura: '106-109', cadera: '127-132' },
+            { numero: 56, cintura: '110-115', cadera: '133-137' },
+            { numero: 58, cintura: '116-120', cadera: '138-143' },
+            { numero: 60, cintura: '121-130', cadera: '144-150' },
+            { numero: 62, cintura: '112-135', cadera: '151-155' },
+            { numero: 64, cintura: '136-140', cadera: '156-160' }
+        ];
+        
+        // Genera los cuadrados dinámicamente
+        const grid = document.getElementById('talles-grid');
+        
+        talles.forEach(talle => {
+            const link = document.createElement('a');
+            link.href = `https://margusoficial.com/marcas/${marca}/?Talles=${talle.numero}`;
+            link.className = 'size-box';
+            link.target = '_blank';
+            
+            link.innerHTML = `
+                <div class="size-number">${talle.numero}</div>
+                <div class="measurement">CINTURA ${talle.cintura}</div>
+                <div class="measurement">CADERA ${talle.cadera}</div>
+            `;
+            
+            grid.appendChild(link);
+        });
+    </script>
+</body>
+</html>
