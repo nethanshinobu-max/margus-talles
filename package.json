@@ -1,0 +1,13 @@
+{
+  "name": "margus-talles-scraper",
+  "version": "1.0.0",
+  "description": "Scraper automático de talles de Margus",
+  "main": "scrape-talles.js",
+  "scripts": {
+    "scrape": "node scrape-talles.js"
+  },
+  "dependencies": {
+    "axios": "^1.6.0",
+    "cheerio": "^1.0.0-rc.12"
+  }
+}
