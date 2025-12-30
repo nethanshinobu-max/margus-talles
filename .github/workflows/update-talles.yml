@@ -1,32 +1,29 @@
 name: Update Talles
 
-on:
+on: 
   schedule:
-    - cron:  '0 3 * * *'
-  workflow_dispatch: 
+    - cron: '0 3 * * *'
+  workflow_dispatch:
 
 jobs:
-  update:
+  update: 
     runs-on: ubuntu-latest
     
-    steps:
+    steps: 
       - name: Checkout repository
         uses: actions/checkout@v4
       
-      - name: Setup Node.js
+      - name:  Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version:  '18'
-      
-      - name: Install dependencies
-        run:  npm install
+          node-version: '18'
       
       - name: Run scrape
-        run:  npm run scrape
+        run: node scrape-talles.js
       
       - name: Commit and push changes
         run: |
-          git config --local user.email "github-actions[bot]@users. noreply.github.com"
-          git config --local user. name "github-actions[bot]"
-          git add .
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add talles-data.json
           git diff --quiet && git diff --staged --quiet || (git commit -m "🤖 Update talles data" && git push)
