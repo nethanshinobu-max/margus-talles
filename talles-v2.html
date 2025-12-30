@@ -3,440 +3,224 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guía de Talles - Margus</title>
+    <title>Elegí tu talle</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            text-decoration: none;
         }
-
+        
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #FFB6C1 0%, #FFC0CB 50%, #FFD4DB 100%);
-            min-height: 100vh;
+            font-family: Arial, sans-serif;
             padding: 20px;
+            background-color: #f5f5f5;
         }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(255, 182, 193, 0.4);
-            overflow: hidden;
-        }
-
-        .header {
-            background: linear-gradient(135deg, #FFB6C1, #FF9AAC);
-            color: white;
-            padding: 40px 20px;
+        
+        h1 {
             text-align: center;
-            position: relative;
-        }
-
-        .header h1 {
-            font-size: 2.5em;
             margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            color: #333;
+            text-decoration: none;
         }
-
-        .header p {
-            font-size: 1.2em;
-            opacity: 0.95;
-        }
-
-        .heart-image {
-            width: 80px;
-            height: 80px;
-            margin: 20px auto;
-            display: block;
-            animation: heartbeat 1.5s ease-in-out infinite;
-        }
-
-        @keyframes heartbeat {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-
-        .content {
-            padding: 40px 20px;
-        }
-
-        .brand-selector {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-bottom: 40px;
-        }
-
-        .brand-btn {
-            padding: 12px 30px;
-            border: 3px solid #FFB6C1;
-            background: white;
-            color: #FFB6C1;
-            border-radius: 25px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .brand-btn:hover {
-            background: #FFE4E8;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(255, 182, 193, 0.3);
-        }
-
-        .brand-btn.active {
-            background: #FFB6C1;
-            color: white;
-            box-shadow: 0 5px 15px rgba(255, 182, 193, 0.5);
-        }
-
-        .size-chart {
-            display: none;
-            animation: fadeIn 0.5s ease;
-        }
-
-        .size-chart.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .size-chart h2 {
-            color: #FFB6C1;
-            font-size: 2em;
-            margin-bottom: 20px;
+        
+        .subtitle {
             text-align: center;
-        }
-
-        .size-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-            gap: 15px;
-            margin: 30px 0;
-        }
-
-        .size-box {
-            background: #FFB6C1;
-            color: white;
-            padding: 20px;
-            border-radius: 15px;
-            text-align: center;
-            font-size: 1.5em;
-            font-weight: bold;
-            box-shadow: 0 4px 10px rgba(255, 182, 193, 0.3);
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .size-box:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(255, 182, 193, 0.5);
-            background: #FF9AAC;
-        }
-
-        .size-box.unavailable {
-            background: #D3D3D3;
-            color: #808080;
-            cursor: not-allowed;
-            opacity: 0.6;
-        }
-
-        .size-box.unavailable:hover {
-            transform: none;
-            box-shadow: 0 4px 10px rgba(211, 211, 211, 0.3);
-            background: #D3D3D3;
-        }
-
-        .measurements-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 30px 0;
-            background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(255, 182, 193, 0.2);
-        }
-
-        .measurements-table th {
-            background: #FFB6C1;
-            color: white;
-            padding: 15px;
-            text-align: left;
-            font-weight: bold;
-        }
-
-        .measurements-table td {
-            padding: 15px;
-            border-bottom: 1px solid #FFE4E8;
-        }
-
-        .measurements-table tr:hover {
-            background: #FFF5F7;
-        }
-
-        .measurements-table tr:last-child td {
-            border-bottom: none;
-        }
-
-        .info-box {
-            background: #FFF5F7;
-            border-left: 5px solid #FFB6C1;
-            padding: 20px;
-            margin: 30px 0;
-            border-radius: 10px;
-        }
-
-        .info-box h3 {
-            color: #FFB6C1;
-            margin-bottom: 10px;
-        }
-
-        .info-box p {
+            margin-bottom: 30px;
             color: #666;
-            line-height: 1.6;
+            font-size: 18px;
+            text-decoration: none;
         }
-
+        
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto 40px auto;
+        }
+        
+        .size-box {
+            background-color: transparent;
+            border: 2px solid #FFB6C1;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: block;
+        }
+        
+        .size-box:hover {
+            background-color: #FFB6C1;
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(255, 182, 193, 0.4);
+        }
+        
+        .size-box.disabled {
+            border-color: #ddd;
+            background-color: #f9f9f9;
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+        
+        .size-box.disabled:hover {
+            background-color: #f9f9f9;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .size-number {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+            text-decoration: none;
+        }
+        
+        .size-box:hover .size-number {
+            color: #fff;
+        }
+        
+        .size-box.disabled .size-number {
+            color: #ccc;
+        }
+        
+        .measurement {
+            font-size: 14px;
+            margin: 5px 0;
+            color: #555;
+            text-decoration: none;
+        }
+        
+        .size-box:hover .measurement {
+            color: #fff;
+        }
+        
+        .size-box.disabled .measurement {
+            color: #ccc;
+        }
+        
+        .heart-container {
+            text-align: center;
+            margin-top: 40px;
+        }
+        
+        .heart-container img {
+            max-width: 200px;
+            height: auto;
+        }
+        
         .loading {
             text-align: center;
-            padding: 40px;
-            color: #FFB6C1;
-            font-size: 1.2em;
+            color: #666;
+            font-size: 18px;
+            padding: 50px;
         }
-
+        
         .error {
-            background: #FFE4E8;
-            color: #FF6B88;
-            padding: 20px;
-            border-radius: 10px;
             text-align: center;
-            margin: 20px 0;
+            color: #FFB6C1;
+            font-size: 18px;
+            padding: 50px;
         }
-
+        
         @media (max-width: 768px) {
-            .header h1 {
-                font-size: 1.8em;
+            .grid-container {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
             }
-
-            .size-grid {
-                grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-                gap: 10px;
-            }
-
-            .size-box {
-                padding: 15px;
-                font-size: 1.2em;
-            }
-
-            .measurements-table {
-                font-size: 14px;
-            }
-
-            .measurements-table th,
-            .measurements-table td {
-                padding: 10px;
+        }
+        
+        @media (max-width: 480px) {
+            .grid-container {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>Guía de Talles Margus</h1>
-            <p>Encuentra tu talle perfecto</p>
-            <img src="https://i.imgur.com/YHN0LsB.png" alt="Heart" class="heart-image" onerror="this.style.display='none'">
-        </div>
-
-        <div class="content">
-            <div class="brand-selector" id="brandSelector">
-                <div class="loading">Cargando marcas...</div>
-            </div>
-
-            <div id="sizeCharts"></div>
-
-            <div class="info-box">
-                <h3>📏 Cómo medir correctamente</h3>
-                <p><strong>Busto:</strong> Mide alrededor de la parte más amplia del pecho.</p>
-                <p><strong>Cintura:</strong> Mide alrededor de la parte más estrecha de tu cintura natural.</p>
-                <p><strong>Cadera:</strong> Mide alrededor de la parte más amplia de tus caderas.</p>
-                <p><strong>Largo:</strong> Desde el hombro hasta el largo deseado.</p>
-            </div>
-
-            <div class="info-box">
-                <h3>💡 Consejos importantes</h3>
-                <p>• Las medidas pueden variar ligeramente entre diferentes marcas.</p>
-                <p>• Los talles en <span style="color: #D3D3D3; font-weight: bold;">gris</span> no están disponibles actualmente.</p>
-                <p>• Si estás entre dos talles, te recomendamos elegir el más grande.</p>
-                <p>• Ante cualquier duda, contáctanos y te ayudaremos a elegir tu talle ideal.</p>
-            </div>
-        </div>
+    <h1>Elegí tu talle</h1>
+    <p class="subtitle">Hacé clic en tu talle según tus medidas</p>
+    
+    <div class="grid-container" id="talles-grid">
+        <div class="loading">Cargando talles disponibles...</div>
     </div>
-
+    
+    <div class="heart-container">
+        <img src="https://i.imgur.com/M2MYa5q.png" alt="Heart">
+    </div>
+    
     <script>
-        let tallesData = null;
-        let currentBrand = null;
-
-        // Load data from talles-data.json
-        async function loadTallesData() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const marca = urlParams.get('marca') || 'cenitho';
+        
+        const todosLosTalles = [
+            { numero: 34, cintura: '65-68', cadera: '88-92' },
+            { numero: 36, cintura: '69-73', cadera: '93-95' },
+            { numero: 38, cintura: '74-77', cadera: '96-99' },
+            { numero: 40, cintura: '78-80', cadera: '100-103' },
+            { numero: 42, cintura: '82-84', cadera: '104-106' },
+            { numero: 44, cintura: '85-88', cadera: '108-110' },
+            { numero: 46, cintura: '89-92', cadera: '111-114' },
+            { numero: 48, cintura: '93-96', cadera: '115-118' },
+            { numero: 50, cintura: '97-100', cadera: '119-122' },
+            { numero: 52, cintura: '101-105', cadera: '124-128' },
+            { numero: 54, cintura: '106-109', cadera: '127-132' },
+            { numero: 56, cintura: '110-115', cadera: '133-137' },
+            { numero: 58, cintura: '116-120', cadera: '138-143' },
+            { numero: 60, cintura: '121-130', cadera: '144-150' },
+            { numero: 62, cintura: '112-135', cadera: '151-155' },
+            { numero: 64, cintura: '136-140', cadera: '156-160' }
+        ];
+        
+        async function cargarTalles() {
             try {
                 const response = await fetch('talles-data.json');
-                if (!response.ok) {
-                    throw new Error('No se pudo cargar talles-data.json');
-                }
-                tallesData = await response.json();
-                initializeBrands();
-            } catch (error) {
-                console.error('Error loading talles-data.json:', error);
-                document.getElementById('brandSelector').innerHTML = `
-                    <div class="error">
-                        <strong>Error al cargar los datos</strong><br>
-                        No se pudo cargar el archivo talles-data.json. 
-                        Por favor, asegúrate de que el archivo existe en el mismo directorio.
-                    </div>
-                `;
-            }
-        }
-
-        // Initialize brand buttons
-        function initializeBrands() {
-            const brandSelector = document.getElementById('brandSelector');
-            
-            if (!tallesData || !tallesData.brands || tallesData.brands.length === 0) {
-                brandSelector.innerHTML = '<div class="error">No se encontraron marcas disponibles</div>';
-                return;
-            }
-
-            brandSelector.innerHTML = '';
-            
-            tallesData.brands.forEach((brand, index) => {
-                const btn = document.createElement('button');
-                btn.className = 'brand-btn';
-                btn.textContent = brand.name;
-                btn.onclick = () => selectBrand(brand.id);
-                brandSelector.appendChild(btn);
-
-                // Activate first brand by default
-                if (index === 0) {
-                    selectBrand(brand.id);
-                }
-            });
-        }
-
-        // Select a brand and display its size chart
-        function selectBrand(brandId) {
-            currentBrand = tallesData.brands.find(b => b.id === brandId);
-            
-            if (!currentBrand) return;
-
-            // Update active button
-            document.querySelectorAll('.brand-btn').forEach(btn => {
-                btn.classList.remove('active');
-                if (btn.textContent === currentBrand.name) {
-                    btn.classList.add('active');
-                }
-            });
-
-            // Display size chart
-            displaySizeChart();
-        }
-
-        // Display size chart for current brand
-        function displaySizeChart() {
-            const chartsContainer = document.getElementById('sizeCharts');
-            chartsContainer.innerHTML = '';
-
-            const chartDiv = document.createElement('div');
-            chartDiv.className = 'size-chart active';
-
-            // Title
-            const title = document.createElement('h2');
-            title.textContent = `Talles ${currentBrand.name}`;
-            chartDiv.appendChild(title);
-
-            // Size grid
-            const sizeGrid = document.createElement('div');
-            sizeGrid.className = 'size-grid';
-
-            currentBrand.sizes.forEach(size => {
-                const sizeBox = document.createElement('div');
-                sizeBox.className = 'size-box';
+                const tallesData = await response.json();
                 
-                if (!size.available) {
-                    sizeBox.classList.add('unavailable');
+                const tallesDisponibles = tallesData[marca];
+                
+                if (!tallesDisponibles) {
+                    document.getElementById('talles-grid').innerHTML = 
+                        '<div class="error">Marca no encontrada</div>';
+                    return;
                 }
                 
-                sizeBox.textContent = size.size;
-                sizeBox.title = size.available ? 'Disponible' : 'No disponible';
+                const grid = document.getElementById('talles-grid');
+                grid.innerHTML = '';
                 
-                sizeGrid.appendChild(sizeBox);
-            });
-
-            chartDiv.appendChild(sizeGrid);
-
-            // Measurements table (if available)
-            if (currentBrand.measurements && currentBrand.measurements.length > 0) {
-                const table = document.createElement('table');
-                table.className = 'measurements-table';
-
-                // Table header
-                const thead = document.createElement('thead');
-                const headerRow = document.createElement('tr');
-                const headers = ['Talle', 'Busto (cm)', 'Cintura (cm)', 'Cadera (cm)', 'Largo (cm)'];
-                
-                headers.forEach(headerText => {
-                    const th = document.createElement('th');
-                    th.textContent = headerText;
-                    headerRow.appendChild(th);
-                });
-                
-                thead.appendChild(headerRow);
-                table.appendChild(thead);
-
-                // Table body
-                const tbody = document.createElement('tbody');
-                
-                currentBrand.measurements.forEach(measurement => {
-                    const row = document.createElement('tr');
+                todosLosTalles.forEach(talle => {
+                    const disponible = tallesDisponibles.includes(talle.numero);
+                    const link = document.createElement('a');
                     
-                    const sizeData = currentBrand.sizes.find(s => s.size === measurement.size);
-                    if (sizeData && !sizeData.available) {
-                        row.style.opacity = '0.5';
-                        row.style.color = '#999';
+                    if (disponible) {
+                        link.href = `https://margusoficial.com/marcas/${marca}/?Talles=${talle.numero}`;
+                        link.target = '_blank';
+                        link.className = 'size-box';
+                    } else {
+                        link.className = 'size-box disabled';
+                        link.onclick = (e) => e.preventDefault();
                     }
                     
-                    const cells = [
-                        measurement.size,
-                        measurement.busto || '-',
-                        measurement.cintura || '-',
-                        measurement.cadera || '-',
-                        measurement.largo || '-'
-                    ];
+                    link.innerHTML = `
+                        <div class="size-number">${talle.numero}</div>
+                        <div class="measurement">CINTURA ${talle.cintura}</div>
+                        <div class="measurement">CADERA ${talle.cadera}</div>
+                    `;
                     
-                    cells.forEach(cellText => {
-                        const td = document.createElement('td');
-                        td.textContent = cellText;
-                        row.appendChild(td);
-                    });
-                    
-                    tbody.appendChild(row);
+                    grid.appendChild(link);
                 });
                 
-                table.appendChild(tbody);
-                chartDiv.appendChild(table);
+            } catch (error) {
+                document.getElementById('talles-grid').innerHTML = 
+                    '<div class="error">Error al cargar los datos de talles</div>';
+                console.error('Error:', error);
             }
-
-            chartsContainer.appendChild(chartDiv);
         }
-
-        // Initialize on page load
-        document.addEventListener('DOMContentLoaded', loadTallesData);
+        
+        cargarTalles();
     </script>
 </body>
 </html>
