@@ -4,51 +4,86 @@ const fs = require('fs');
 
 async function scrapeTalles(url) {
     try {
-        const response = await axios.get(url);
+        console.log(`📡 Scrapeando: ${url}`);
+        const response = await axios.get(url, {
+            headers: {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+            },
+            timeout: 15000
+        });
+        
         const html = response.data;
         const $ = cheerio.load(html);
         
-        const talles = [];
+        const talles = new Set();
         
-        // Buscar los checkboxes de talles
-        $('input[type="checkbox"][name*="Talles"]').each((i, elem) => {
+        // Método 1: Buscar checkboxes
+        $('input[type="checkbox"]').each((i, elem) => {
             const value = $(elem).val();
-            const numero = parseInt(value);
-            if (!isNaN(numero) && numero >= 34 && numero <= 64) {
-                talles.push(numero);
+            const name = $(elem).attr('name');
+            
+            if (name && name.includes('Talles')) {
+                const numero = parseInt(value);
+                if (!isNaN(numero) && numero >= 34 && numero <= 64) {
+                    talles.add(numero);
+                }
             }
         });
         
-        // Ordenar talles
-        return talles.sort((a, b) => a - b);
+        // Método 2: Buscar en labels con números
+        $('label').each((i, elem) => {
+            const text = $(elem).text().trim();
+            const numero = parseInt(text);
+            if (!isNaN(numero) && numero >= 34 && numero <= 64) {
+                talles.add(numero);
+            }
+        });
+        
+        return Array.from(talles).sort((a, b) => a - b);
+        
     } catch (error) {
-        console.error(`Error scrapeando ${url}:`, error.message);
+        console.error(`❌ Error scrapeando ${url}:`, error.message);
         return [];
     }
 }
 
 async function main() {
+    console.log('🚀 Iniciando scraper de categorías...\n');
+    
     const urls = fs.readFileSync('categorias-urls.txt', 'utf-8')
         .split('\n')
-        .filter(line => line.trim());
+        .map(line => line.trim())
+        .filter(line => line.length > 0);
+    
+    console.log(`📋 Total de categorías a scrapear: ${urls.length}\n`);
     
     const resultado = {};
     
-    for (const url of urls) {
+    for (let i = 0; i < urls.length; i++) {
+        const url = urls[i];
         const nombreCategoria = url.split('/').filter(x => x).pop();
-        console.log(`Scrapeando ${nombreCategoria}...`);
+        
+        console.log(`[${i + 1}/${urls.length}] Procesando: ${nombreCategoria}`);
         
         const talles = await scrapeTalles(url);
         resultado[nombreCategoria] = talles;
         
         console.log(`✅ ${nombreCategoria}: ${talles.length} talles encontrados`);
+        if (talles.length > 0) {
+            console.log(`   Talles: ${talles.join(', ')}`);
+        }
+        console.log('');
         
         // Delay para no saturar el servidor
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        await new Promise(resolve => setTimeout(resolve, 2000));
     }
     
     fs.writeFileSync('categorias-data.json', JSON.stringify(resultado, null, 2));
     console.log('\n✅ Archivo categorias-data.json generado exitosamente');
+    console.log(`📊 Total categorías procesadas: ${Object.keys(resultado).length}`);
 }
 
-main();
+main().catch(error => {
+    console.error('💥 Error fatal:', error);
+    process.exit(1);
+});
