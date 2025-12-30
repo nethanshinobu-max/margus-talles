@@ -1,4 +1,4 @@
-const fetch = require('node-fetch');
+const https = require('https');
 const fs = require('fs');
 
 const marcas = [
@@ -9,22 +9,22 @@ const marcas = [
   'topazzio', 'ohmydenim', 'gooco'
 ];
 
+function httpsGet(url) {
+  return new Promise((resolve, reject) => {
+    https.get(url, { headers: { 'User-Agent': 'Mozilla/5.0' } }, (res) => {
+      let data = '';
+      res.on('data', chunk => data += chunk);
+      res.on('end', () => resolve(data));
+    }).on('error', reject);
+  });
+}
+
 async function scrapeMarca(marca) {
   try {
     const url = `https://margusoficial.com/marcas/${marca}/`;
-    const response = await fetch(url, {
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
-      }
-    });
+    const html = await httpsGet(url);
     
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}`);
-    }
-    
-    const html = await response.text();
     const talles = [];
-    
     const regex = /data-filter-name="Talles"\s+data-filter-value="(\d+)"/g;
     let match;
     
@@ -37,7 +37,7 @@ async function scrapeMarca(marca) {
     
     return [...new Set(talles)].sort((a, b) => a - b);
   } catch (error) {
-    console.error(`❌ Error scraping ${marca}:`, error.message);
+    console.error(`❌ Error ${marca}:`, error.message);
     return [];
   }
 }
@@ -45,25 +45,25 @@ async function scrapeMarca(marca) {
 async function updateAllMarcas() {
   const tallesData = {};
   
-  console.log('🚀 Iniciando scraping de 26 marcas...\n');
+  console.log('🚀 Scraping 26 marcas...\n');
   
   for (const marca of marcas) {
-    console.log(`📊 Scraping ${marca}...`);
+    console.log(`📊 ${marca}...`);
     const talles = await scrapeMarca(marca);
     if (talles.length > 0) {
       tallesData[marca] = talles;
-      console.log(`   ✅ ${marca}: ${talles.join(', ')}`);
+      console.log(`   ✅ ${talles.join(', ')}`);
     } else {
-      console.log(`   ⚠️ ${marca}: No se encontraron talles`);
+      console.log(`   ⚠️ Sin talles`);
     }
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    await new Promise(resolve => setTimeout(resolve, 1000));
   }
   
   fs.writeFileSync('talles-data.json', JSON.stringify(tallesData, null, 2));
-  console.log('\n🎉 ✅ talles-data.json actualizado correctamente!');
+  console.log('\n🎉 LISTO!');
 }
 
 updateAllMarcas().catch(error => {
-  console.error('💥 Error fatal:', error);
+  console.error('💥 Error:', error);
   process.exit(1);
 });
