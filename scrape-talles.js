@@ -1,5 +1,4 @@
-const axios = require('axios');
-const cheerio = require('cheerio');
+const fetch = require('node-fetch');
 const fs = require('fs');
 
 const marcas = [
@@ -13,22 +12,28 @@ const marcas = [
 async function scrapeMarca(marca) {
   try {
     const url = `https://margusoficial.com/marcas/${marca}/`;
-    const response = await axios.get(url, { 
-      timeout: 10000,
+    const response = await fetch(url, {
       headers: {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
       }
     });
-    const $ = cheerio.load(response.data);
     
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+    
+    const html = await response.text();
     const talles = [];
-    $('[data-filter-name="Talles"]').each((i, elem) => {
-      const talle = $(elem).attr('data-filter-value');
-      const talleNum = parseInt(talle);
+    
+    const regex = /data-filter-name="Talles"\s+data-filter-value="(\d+)"/g;
+    let match;
+    
+    while ((match = regex.exec(html)) !== null) {
+      const talleNum = parseInt(match[1]);
       if (!isNaN(talleNum) && talleNum >= 34 && talleNum <= 64) {
         talles.push(talleNum);
       }
-    });
+    }
     
     return [...new Set(talles)].sort((a, b) => a - b);
   } catch (error) {
