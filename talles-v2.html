@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elegí tu talle</title>
+    <title>Talles Margus - Consulta Rápida</title>
     <style>
         * {
             margin: 0;
@@ -12,272 +12,284 @@
         }
 
         body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             padding: 20px;
         }
 
         .container {
-            max-width: 1000px;
-            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         h1 {
             text-align: center;
-            color: #333;
-            margin-bottom: 10px;
-            font-size: 2.5em;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .subtitle {
-            text-align: center;
-            color: #666;
+            color: white;
             margin-bottom: 30px;
-            font-size: 1.2em;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
         }
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            padding: 20px;
-        }
-
-        .talle-box {
+        .search-box {
             background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
             border-radius: 8px;
-            padding: 40px 20px;
-            text-align: center;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            border: 3px solid transparent;
-            text-decoration: none;
+            transition: transform 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .results {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            display: none;
+        }
+
+        .results.show {
             display: block;
         }
 
-        .talle-box:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 0 30px rgba(255, 182, 193, 0.8), 0 0 50px rgba(255, 182, 193, 0.5), 0 15px 30px rgba(255, 182, 193, 0.3);
-            border-color: #FFB6C1;
+        .result-item {
+            padding: 15px;
+            margin-bottom: 15px;
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            border-radius: 8px;
         }
 
-        .talle-box.disabled {
-            background: #f0f0f0;
-            color: #ccc;
-            cursor: not-allowed;
-            opacity: 0.5;
-        }
-
-        .talle-box.disabled:hover {
-            transform: none;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            border-color: transparent;
-        }
-
-        .talle-number {
-            font-size: 4em;
-            font-weight: bold;
-            color: #FFB6C1;
+        .result-item h3 {
+            color: #667eea;
             margin-bottom: 10px;
         }
 
-        .talle-box.disabled .talle-number {
-            color: #ccc;
+        .result-item p {
+            color: #555;
+            margin: 5px 0;
         }
 
-        .talle-info {
-            font-size: 0.9em;
-            color: #666;
-            line-height: 1.5;
-        }
-
-        .talle-box.disabled .talle-info {
-            color: #ccc;
-        }
-
-        .heart-container {
+        .no-results {
             text-align: center;
-            margin-top: 40px;
-        }
-
-        .heart-container img {
-            max-width: 200px;
-            height: auto;
-        }
-
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 1.8em;
-            }
-
-            .subtitle {
-                font-size: 1em;
-            }
-
-            .grid {
-                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-                gap: 15px;
-            }
-
-            .talle-number {
-                font-size: 3em;
-            }
+            color: #999;
+            font-size: 18px;
+            padding: 40px;
         }
 
         .loading {
             text-align: center;
-            color: #666;
-            font-size: 1.5em;
-            padding: 50px;
+            color: white;
+            font-size: 18px;
+            padding: 20px;
+            display: none;
+        }
+
+        .loading.show {
+            display: block;
         }
 
         .error {
-            text-align: center;
-            color: #FFB6C1;
-            font-size: 1.2em;
-            padding: 50px;
+            background: #fee;
+            border: 2px solid #fcc;
+            color: #c33;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .error.show {
+            display: block;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Elegí tu talle</h1>
-        <p class="subtitle">Hacé clic en tu talle según tus medidas</p>
-        <div class="grid" id="tallesGrid">
-            <div class="loading">Cargando talles disponibles desde Margus...</div>
-        </div>
+        <h1>🏷️ Consulta de Talles Margus</h1>
         
-        <div class="heart-container">
-            <img src="https://i.imgur.com/M2MYa5q.png" alt="Heart">
+        <div class="search-box">
+            <div class="input-group">
+                <label for="searchInput">Buscar por código de artículo:</label>
+                <input type="text" id="searchInput" placeholder="Ej: 4401, 4402, etc.">
+            </div>
+            
+            <div class="input-group">
+                <label for="categoryFilter">Filtrar por categoría:</label>
+                <select id="categoryFilter">
+                    <option value="">Todas las categorías</option>
+                </select>
+            </div>
+            
+            <button onclick="searchTalles()">Buscar</button>
         </div>
+
+        <div class="loading" id="loading">
+            ⏳ Cargando datos...
+        </div>
+
+        <div class="error" id="error"></div>
+
+        <div class="results" id="results"></div>
     </div>
 
     <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        const marca = urlParams.get('marca');
+        let tallesData = [];
+        const JSON_URL = 'https://raw.githubusercontent.com/nethanshinobu-max/margus-talles/main/talles-data.json';
 
-        const todosLosTalles = [
-            { numero: 34, cintura: "65-68", cadera: "88-92" },
-            { numero: 36, cintura: "69-73", cadera: "93-95" },
-            { numero: 38, cintura: "74-77", cadera: "96-99" },
-            { numero: 40, cintura: "78-80", cadera: "100-103" },
-            { numero: 42, cintura: "82-84", cadera: "104-106" },
-            { numero: 44, cintura: "85-88", cadera: "108-110" },
-            { numero: 46, cintura: "89-92", cadera: "111-114" },
-            { numero: 48, cintura: "93-96", cadera: "115-118" },
-            { numero: 50, cintura: "97-100", cadera: "119-122" },
-            { numero: 52, cintura: "101-105", cadera: "124-128" },
-            { numero: 54, cintura: "106-109", cadera: "127-132" },
-            { numero: 56, cintura: "110-115", cadera: "133-137" },
-            { numero: 58, cintura: "116-120", cadera: "138-143" },
-            { numero: 60, cintura: "121-130", cadera: "144-150" },
-            { numero: 62, cintura: "112-135", cadera: "151-155" },
-            { numero: 64, cintura: "136-140", cadera: "156-160" }
-        ];
-
-        async function scrapeTallesFromMargus() {
-            if (!marca) {
-                document.getElementById('tallesGrid').innerHTML = 
-                    '<div class="error">Error: No se especificó una marca en la URL</div>';
-                return;
-            }
-
+        // Load data from JSON file on page load
+        async function loadData() {
+            const loading = document.getElementById('loading');
+            const errorDiv = document.getElementById('error');
+            
+            loading.classList.add('show');
+            errorDiv.classList.remove('show');
+            
             try {
-                // Intentar hacer scraping de la página de Margus
-                const url = `https://margusoficial.com/marcas/${marca}/`;
-                const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
+                const response = await fetch(JSON_URL);
                 
-                const response = await fetch(proxyUrl);
-                const html = await response.text();
-                
-                // Crear un parser temporal
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html, 'text/html');
-                
-                // Buscar los checkboxes de talles en el HTML
-                const tallesCheckboxes = doc.querySelectorAll('[data-filter-name="Talles"]');
-                const tallesDisponibles = [];
-                
-                tallesCheckboxes.forEach(checkbox => {
-                    const talleValue = checkbox.getAttribute('data-filter-value');
-                    const talleNum = parseInt(talleValue);
-                    if (!isNaN(talleNum) && talleNum >= 34 && talleNum <= 64) {
-                        tallesDisponibles.push(talleNum);
-                    }
-                });
-
-                if (tallesDisponibles.length === 0) {
-                    throw new Error('No se encontraron talles');
+                if (!response.ok) {
+                    throw new Error(`Error al cargar los datos: ${response.status} ${response.statusText}`);
                 }
-
-                renderTalles(tallesDisponibles);
-
+                
+                tallesData = await response.json();
+                
+                if (!Array.isArray(tallesData) || tallesData.length === 0) {
+                    throw new Error('Los datos cargados no son válidos o están vacíos');
+                }
+                
+                populateCategories();
+                console.log(`✅ Datos cargados exitosamente: ${tallesData.length} artículos`);
+                
             } catch (error) {
-                console.error('Error al scraping:', error);
-                // Fallback: usar talles-data.json
-                loadFromJSON();
+                console.error('Error al cargar datos:', error);
+                errorDiv.textContent = `❌ Error: ${error.message}. Por favor, verifica que el archivo talles-data.json existe en el repositorio.`;
+                errorDiv.classList.add('show');
+            } finally {
+                loading.classList.remove('show');
             }
         }
 
-        async function loadFromJSON() {
-            try {
-                const response = await fetch('talles-data.json');
-                const tallesData = await response.json();
-                
-                const tallesDisponibles = tallesData[marca];
-                
-                if (!tallesDisponibles) {
-                    document.getElementById('tallesGrid').innerHTML = 
-                        '<div class="error">Error: Marca no encontrada</div>';
-                    return;
-                }
-
-                renderTalles(tallesDisponibles);
-
-            } catch (error) {
-                document.getElementById('tallesGrid').innerHTML = 
-                    '<div class="error">Error al cargar los datos de talles</div>';
-                console.error('Error:', error);
-            }
-        }
-
-        function renderTalles(tallesDisponibles) {
-            const grid = document.getElementById('tallesGrid');
-            grid.innerHTML = '';
-
-            todosLosTalles.forEach(talle => {
-                const disponible = tallesDisponibles.includes(talle.numero);
-                const a = document.createElement('a');
-                a.className = `talle-box ${disponible ? '' : 'disabled'}`;
-                
-                a.innerHTML = `
-                    <div class="talle-number">${talle.numero}</div>
-                    <div class="talle-info">
-                        CINTURA ${talle.cintura}<br>
-                        CADERA ${talle.cadera}
-                    </div>
-                `;
-
-                if (disponible) {
-                    a.href = `https://margusoficial.com/marcas/${marca}/?Talles=${talle.numero}`;
-                    a.target = '_blank';
-                } else {
-                    a.onclick = (e) => e.preventDefault();
-                }
-
-                grid.appendChild(a);
+        // Populate category filter dropdown
+        function populateCategories() {
+            const categoryFilter = document.getElementById('categoryFilter');
+            const categories = [...new Set(tallesData.map(item => item.categoria))].sort();
+            
+            categoryFilter.innerHTML = '<option value="">Todas las categorías</option>';
+            categories.forEach(category => {
+                const option = document.createElement('option');
+                option.value = category;
+                option.textContent = category;
+                categoryFilter.appendChild(option);
             });
         }
 
-        // Iniciar el scraping automático
-        scrapeTallesFromMargus();
+        // Search function
+        function searchTalles() {
+            const searchInput = document.getElementById('searchInput').value.toLowerCase().trim();
+            const categoryFilter = document.getElementById('categoryFilter').value;
+            const resultsDiv = document.getElementById('results');
+            
+            if (!tallesData || tallesData.length === 0) {
+                resultsDiv.innerHTML = '<div class="no-results">⚠️ No hay datos disponibles. Por favor, recarga la página.</div>';
+                resultsDiv.classList.add('show');
+                return;
+            }
+
+            let filtered = tallesData;
+
+            // Filter by search input
+            if (searchInput) {
+                filtered = filtered.filter(item => 
+                    item.articulo.toLowerCase().includes(searchInput) ||
+                    item.descripcion.toLowerCase().includes(searchInput)
+                );
+            }
+
+            // Filter by category
+            if (categoryFilter) {
+                filtered = filtered.filter(item => item.categoria === categoryFilter);
+            }
+
+            displayResults(filtered);
+        }
+
+        // Display results
+        function displayResults(items) {
+            const resultsDiv = document.getElementById('results');
+            
+            if (items.length === 0) {
+                resultsDiv.innerHTML = '<div class="no-results">😔 No se encontraron resultados</div>';
+            } else {
+                resultsDiv.innerHTML = items.map(item => `
+                    <div class="result-item">
+                        <h3>📦 ${item.articulo}</h3>
+                        <p><strong>Descripción:</strong> ${item.descripcion}</p>
+                        <p><strong>Categoría:</strong> ${item.categoria}</p>
+                        <p><strong>Talles:</strong> ${item.talles}</p>
+                    </div>
+                `).join('');
+            }
+            
+            resultsDiv.classList.add('show');
+        }
+
+        // Allow search on Enter key
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchTalles();
+            }
+        });
+
+        // Load data when page loads
+        window.addEventListener('DOMContentLoaded', loadData);
     </script>
 </body>
 </html>
