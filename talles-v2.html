@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Love Letter</title>
+    <title>Guía de Talles - Margus</title>
     <style>
         * {
             margin: 0;
@@ -12,292 +12,431 @@
         }
 
         body {
-            font-family: 'Georgia', serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #FFB6C1 0%, #FFC0CB 50%, #FFD4DB 100%);
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             padding: 20px;
         }
 
         .container {
-            max-width: 600px;
-            width: 100%;
-        }
-
-        .envelope {
-            position: relative;
-            width: 100%;
-            height: 400px;
-            perspective: 1000px;
-            cursor: pointer;
-            margin-bottom: 30px;
-        }
-
-        .envelope-wrapper {
-            width: 100%;
-            height: 100%;
-            position: relative;
-            transform-style: preserve-3d;
-            transition: transform 0.6s;
-        }
-
-        .envelope.opened .envelope-wrapper {
-            transform: rotateX(-180deg);
-        }
-
-        .envelope-front, .envelope-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            border-radius: 10px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-        }
-
-        .envelope-front {
+            max-width: 1200px;
+            margin: 0 auto;
             background: white;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(255, 182, 193, 0.4);
+            overflow: hidden;
         }
 
-        .envelope-back {
-            background: #f8f9fa;
-            transform: rotateX(180deg);
-            padding: 40px;
-            overflow-y: auto;
+        .header {
+            background: linear-gradient(135deg, #FFB6C1, #FF9AAC);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            position: relative;
         }
 
-        .seal {
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.95;
+        }
+
+        .heart-image {
             width: 80px;
             height: 80px;
-            background: #FFB6C1;
-            border-radius: 50%;
+            margin: 20px auto;
+            display: block;
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .content {
+            padding: 40px 20px;
+        }
+
+        .brand-selector {
             display: flex;
             justify-content: center;
-            align-items: center;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(255, 182, 193, 0.4);
-            transition: all 0.3s;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 40px;
         }
 
-        .seal:hover {
-            background: #FF91A4;
-            transform: scale(1.1);
-        }
-
-        .seal::before {
-            content: '💌';
-            font-size: 40px;
-        }
-
-        .instruction {
-            color: #333;
-            font-size: 18px;
-            text-align: center;
-            font-style: italic;
-        }
-
-        .letter-content {
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            line-height: 1.8;
-            color: #333;
-        }
-
-        .letter-content h2 {
-            color: #FFB6C1;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .letter-content p {
-            margin-bottom: 15px;
-            text-align: justify;
-        }
-
-        .signature {
-            text-align: right;
-            font-style: italic;
-            margin-top: 30px;
-            color: #FFB6C1;
-        }
-
-        .floating-hearts {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            overflow: hidden;
-            z-index: -1;
-        }
-
-        .heart {
-            position: absolute;
-            font-size: 20px;
-            opacity: 0;
-            animation: float 6s infinite;
-        }
-
-        @keyframes float {
-            0% {
-                transform: translateY(100vh) rotate(0deg);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-100px) rotate(360deg);
-                opacity: 0;
-            }
-        }
-
-        .reset-btn {
-            display: none;
-            margin: 20px auto;
+        .brand-btn {
             padding: 12px 30px;
-            background: #FFB6C1;
-            color: white;
-            border: none;
+            border: 3px solid #FFB6C1;
+            background: white;
+            color: #FFB6C1;
             border-radius: 25px;
             font-size: 16px;
+            font-weight: bold;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(255, 182, 193, 0.4);
-            transition: all 0.3s;
+            transition: all 0.3s ease;
         }
 
-        .reset-btn:hover {
-            background: #FF91A4;
+        .brand-btn:hover {
+            background: #FFE4E8;
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(255, 145, 164, 0.4);
+            box-shadow: 0 5px 15px rgba(255, 182, 193, 0.3);
         }
 
-        .reset-btn.show {
+        .brand-btn.active {
+            background: #FFB6C1;
+            color: white;
+            box-shadow: 0 5px 15px rgba(255, 182, 193, 0.5);
+        }
+
+        .size-chart {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .size-chart.active {
             display: block;
         }
 
-        .svg-heart-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-top: 30px;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .size-chart h2 {
+            color: #FFB6C1;
+            font-size: 2em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .size-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 15px;
+            margin: 30px 0;
+        }
+
+        .size-box {
+            background: #FFB6C1;
+            color: white;
             padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            font-size: 1.5em;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(255, 182, 193, 0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
         }
 
-        .svg-heart {
-            width: 100px;
-            height: 100px;
-            fill: #FFB6C1;
-            filter: drop-shadow(0 4px 15px rgba(255, 182, 193, 0.4));
-            animation: pulse 2s ease-in-out infinite;
+        .size-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(255, 182, 193, 0.5);
+            background: #FF9AAC;
         }
 
-        @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.1);
-            }
+        .size-box.unavailable {
+            background: #D3D3D3;
+            color: #808080;
+            cursor: not-allowed;
+            opacity: 0.6;
         }
 
-        @media (max-width: 600px) {
-            .envelope {
-                height: 350px;
+        .size-box.unavailable:hover {
+            transform: none;
+            box-shadow: 0 4px 10px rgba(211, 211, 211, 0.3);
+            background: #D3D3D3;
+        }
+
+        .measurements-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(255, 182, 193, 0.2);
+        }
+
+        .measurements-table th {
+            background: #FFB6C1;
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: bold;
+        }
+
+        .measurements-table td {
+            padding: 15px;
+            border-bottom: 1px solid #FFE4E8;
+        }
+
+        .measurements-table tr:hover {
+            background: #FFF5F7;
+        }
+
+        .measurements-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .info-box {
+            background: #FFF5F7;
+            border-left: 5px solid #FFB6C1;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 10px;
+        }
+
+        .info-box h3 {
+            color: #FFB6C1;
+            margin-bottom: 10px;
+        }
+
+        .info-box p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #FFB6C1;
+            font-size: 1.2em;
+        }
+
+        .error {
+            background: #FFE4E8;
+            color: #FF6B88;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
             }
-            
-            .letter-content {
-                padding: 20px;
+
+            .size-grid {
+                grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+                gap: 10px;
+            }
+
+            .size-box {
+                padding: 15px;
+                font-size: 1.2em;
+            }
+
+            .measurements-table {
                 font-size: 14px;
+            }
+
+            .measurements-table th,
+            .measurements-table td {
+                padding: 10px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="floating-hearts" id="floatingHearts"></div>
-    
     <div class="container">
-        <div class="envelope" id="envelope">
-            <div class="envelope-wrapper">
-                <div class="envelope-front">
-                    <div class="seal"></div>
-                    <p class="instruction">Click to open the envelope</p>
-                </div>
-                <div class="envelope-back">
-                    <div class="letter-content">
-                        <h2>My Dearest Love</h2>
-                        <p>Every moment with you feels like a beautiful dream that I never want to wake up from. Your smile lights up my darkest days, and your laughter is the sweetest melody I've ever heard.</p>
-                        <p>I cherish every conversation, every shared silence, and every adventure we embark on together. You've shown me what it means to truly love and be loved in return.</p>
-                        <p>Thank you for being my partner, my best friend, and my greatest inspiration. I promise to stand by your side through every season of life, celebrating your joys and supporting you through challenges.</p>
-                        <p>Here's to our journey together, to the memories we've created, and to all the beautiful moments yet to come.</p>
-                        <p class="signature">Forever yours,<br>With all my love ❤️</p>
-                    </div>
-                </div>
-            </div>
+        <div class="header">
+            <h1>Guía de Talles Margus</h1>
+            <p>Encuentra tu talle perfecto</p>
+            <img src="https://i.imgur.com/YHN0LsB.png" alt="Heart" class="heart-image" onerror="this.style.display='none'">
         </div>
-        
-        <button class="reset-btn" id="resetBtn">Close Letter</button>
 
-        <div class="svg-heart-container">
-            <svg class="svg-heart" viewBox="0 0 32 29.6" xmlns="http://www.w3.org/2000/svg">
-                <path d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2
-                c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z"/>
-            </svg>
+        <div class="content">
+            <div class="brand-selector" id="brandSelector">
+                <div class="loading">Cargando marcas...</div>
+            </div>
+
+            <div id="sizeCharts"></div>
+
+            <div class="info-box">
+                <h3>📏 Cómo medir correctamente</h3>
+                <p><strong>Busto:</strong> Mide alrededor de la parte más amplia del pecho.</p>
+                <p><strong>Cintura:</strong> Mide alrededor de la parte más estrecha de tu cintura natural.</p>
+                <p><strong>Cadera:</strong> Mide alrededor de la parte más amplia de tus caderas.</p>
+                <p><strong>Largo:</strong> Desde el hombro hasta el largo deseado.</p>
+            </div>
+
+            <div class="info-box">
+                <h3>💡 Consejos importantes</h3>
+                <p>• Las medidas pueden variar ligeramente entre diferentes marcas.</p>
+                <p>• Los talles en <span style="color: #D3D3D3; font-weight: bold;">gris</span> no están disponibles actualmente.</p>
+                <p>• Si estás entre dos talles, te recomendamos elegir el más grande.</p>
+                <p>• Ante cualquier duda, contáctanos y te ayudaremos a elegir tu talle ideal.</p>
+            </div>
         </div>
     </div>
 
     <script>
-        // Envelope interaction
-        const envelope = document.getElementById('envelope');
-        const resetBtn = document.getElementById('resetBtn');
+        let tallesData = null;
+        let currentBrand = null;
 
-        envelope.addEventListener('click', function() {
-            if (!this.classList.contains('opened')) {
-                this.classList.add('opened');
-                resetBtn.classList.add('show');
-                createFloatingHearts();
-            }
-        });
-
-        resetBtn.addEventListener('click', function(e) {
-            e.stopPropagation();
-            envelope.classList.remove('opened');
-            this.classList.remove('show');
-        });
-
-        // Floating hearts animation
-        function createFloatingHearts() {
-            const container = document.getElementById('floatingHearts');
-            const heartSymbols = ['❤️', '💕', '💖', '💗', '💓', '💝'];
-            
-            for (let i = 0; i < 15; i++) {
-                setTimeout(() => {
-                    const heart = document.createElement('div');
-                    heart.className = 'heart';
-                    heart.textContent = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
-                    heart.style.left = Math.random() * 100 + '%';
-                    heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
-                    heart.style.animationDelay = Math.random() * 2 + 's';
-                    container.appendChild(heart);
-                    
-                    setTimeout(() => {
-                        heart.remove();
-                    }, 8000);
-                }, i * 200);
+        // Load data from talles-data.json
+        async function loadTallesData() {
+            try {
+                const response = await fetch('talles-data.json');
+                if (!response.ok) {
+                    throw new Error('No se pudo cargar talles-data.json');
+                }
+                tallesData = await response.json();
+                initializeBrands();
+            } catch (error) {
+                console.error('Error loading talles-data.json:', error);
+                document.getElementById('brandSelector').innerHTML = `
+                    <div class="error">
+                        <strong>Error al cargar los datos</strong><br>
+                        No se pudo cargar el archivo talles-data.json. 
+                        Por favor, asegúrate de que el archivo existe en el mismo directorio.
+                    </div>
+                `;
             }
         }
+
+        // Initialize brand buttons
+        function initializeBrands() {
+            const brandSelector = document.getElementById('brandSelector');
+            
+            if (!tallesData || !tallesData.brands || tallesData.brands.length === 0) {
+                brandSelector.innerHTML = '<div class="error">No se encontraron marcas disponibles</div>';
+                return;
+            }
+
+            brandSelector.innerHTML = '';
+            
+            tallesData.brands.forEach((brand, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'brand-btn';
+                btn.textContent = brand.name;
+                btn.onclick = () => selectBrand(brand.id);
+                brandSelector.appendChild(btn);
+
+                // Activate first brand by default
+                if (index === 0) {
+                    selectBrand(brand.id);
+                }
+            });
+        }
+
+        // Select a brand and display its size chart
+        function selectBrand(brandId) {
+            currentBrand = tallesData.brands.find(b => b.id === brandId);
+            
+            if (!currentBrand) return;
+
+            // Update active button
+            document.querySelectorAll('.brand-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.textContent === currentBrand.name) {
+                    btn.classList.add('active');
+                }
+            });
+
+            // Display size chart
+            displaySizeChart();
+        }
+
+        // Display size chart for current brand
+        function displaySizeChart() {
+            const chartsContainer = document.getElementById('sizeCharts');
+            chartsContainer.innerHTML = '';
+
+            const chartDiv = document.createElement('div');
+            chartDiv.className = 'size-chart active';
+
+            // Title
+            const title = document.createElement('h2');
+            title.textContent = `Talles ${currentBrand.name}`;
+            chartDiv.appendChild(title);
+
+            // Size grid
+            const sizeGrid = document.createElement('div');
+            sizeGrid.className = 'size-grid';
+
+            currentBrand.sizes.forEach(size => {
+                const sizeBox = document.createElement('div');
+                sizeBox.className = 'size-box';
+                
+                if (!size.available) {
+                    sizeBox.classList.add('unavailable');
+                }
+                
+                sizeBox.textContent = size.size;
+                sizeBox.title = size.available ? 'Disponible' : 'No disponible';
+                
+                sizeGrid.appendChild(sizeBox);
+            });
+
+            chartDiv.appendChild(sizeGrid);
+
+            // Measurements table (if available)
+            if (currentBrand.measurements && currentBrand.measurements.length > 0) {
+                const table = document.createElement('table');
+                table.className = 'measurements-table';
+
+                // Table header
+                const thead = document.createElement('thead');
+                const headerRow = document.createElement('tr');
+                const headers = ['Talle', 'Busto (cm)', 'Cintura (cm)', 'Cadera (cm)', 'Largo (cm)'];
+                
+                headers.forEach(headerText => {
+                    const th = document.createElement('th');
+                    th.textContent = headerText;
+                    headerRow.appendChild(th);
+                });
+                
+                thead.appendChild(headerRow);
+                table.appendChild(thead);
+
+                // Table body
+                const tbody = document.createElement('tbody');
+                
+                currentBrand.measurements.forEach(measurement => {
+                    const row = document.createElement('tr');
+                    
+                    const sizeData = currentBrand.sizes.find(s => s.size === measurement.size);
+                    if (sizeData && !sizeData.available) {
+                        row.style.opacity = '0.5';
+                        row.style.color = '#999';
+                    }
+                    
+                    const cells = [
+                        measurement.size,
+                        measurement.busto || '-',
+                        measurement.cintura || '-',
+                        measurement.cadera || '-',
+                        measurement.largo || '-'
+                    ];
+                    
+                    cells.forEach(cellText => {
+                        const td = document.createElement('td');
+                        td.textContent = cellText;
+                        row.appendChild(td);
+                    });
+                    
+                    tbody.appendChild(row);
+                });
+                
+                table.appendChild(tbody);
+                chartDiv.appendChild(table);
+            }
+
+            chartsContainer.appendChild(chartDiv);
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', loadTallesData);
     </script>
 </body>
 </html>
