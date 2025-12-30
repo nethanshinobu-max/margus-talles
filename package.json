@@ -1,15 +1,12 @@
 {
   "name": "margus-talles",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Scraper de talles de Margus",
+  "main": "scrape-talles.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "scrape": "node scrape-talles.js"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "node-fetch": "^3.3.0"
-  }
+  "license": "ISC"
 }
