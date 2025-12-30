@@ -151,7 +151,7 @@
         <h1>Elegí tu talle</h1>
         <p class="subtitle">Hacé clic en tu talle según tus medidas</p>
         <div class="grid" id="tallesGrid">
-            <div class="loading">Cargando talles disponibles...</div>
+            <div class="loading">Cargando talles disponibles desde Margus...</div>
         </div>
         
         <div class="heart-container">
@@ -182,17 +182,55 @@
             { numero: 64, cintura: "136-140", cadera: "156-160" }
         ];
 
-        async function cargarTalles() {
+        async function scrapeTallesFromMargus() {
+            if (!marca) {
+                document.getElementById('tallesGrid').innerHTML = 
+                    '<div class="error">Error: No se especificó una marca en la URL</div>';
+                return;
+            }
+
+            try {
+                // Intentar hacer scraping de la página de Margus
+                const url = `https://margusoficial.com/marcas/${marca}/`;
+                const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
+                
+                const response = await fetch(proxyUrl);
+                const html = await response.text();
+                
+                // Crear un parser temporal
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                
+                // Buscar los checkboxes de talles en el HTML
+                const tallesCheckboxes = doc.querySelectorAll('[data-filter-name="Talles"]');
+                const tallesDisponibles = [];
+                
+                tallesCheckboxes.forEach(checkbox => {
+                    const talleValue = checkbox.getAttribute('data-filter-value');
+                    const talleNum = parseInt(talleValue);
+                    if (!isNaN(talleNum) && talleNum >= 34 && talleNum <= 64) {
+                        tallesDisponibles.push(talleNum);
+                    }
+                });
+
+                if (tallesDisponibles.length === 0) {
+                    throw new Error('No se encontraron talles');
+                }
+
+                renderTalles(tallesDisponibles);
+
+            } catch (error) {
+                console.error('Error al scraping:', error);
+                // Fallback: usar talles-data.json
+                loadFromJSON();
+            }
+        }
+
+        async function loadFromJSON() {
             try {
                 const response = await fetch('talles-data.json');
                 const tallesData = await response.json();
                 
-                if (!marca) {
-                    document.getElementById('tallesGrid').innerHTML = 
-                        '<div class="error">Error: No se especificó una marca en la URL</div>';
-                    return;
-                }
-
                 const tallesDisponibles = tallesData[marca];
                 
                 if (!tallesDisponibles) {
@@ -201,31 +239,7 @@
                     return;
                 }
 
-                const grid = document.getElementById('tallesGrid');
-                grid.innerHTML = '';
-
-                todosLosTalles.forEach(talle => {
-                    const disponible = tallesDisponibles.includes(talle.numero);
-                    const a = document.createElement('a');
-                    a.className = `talle-box ${disponible ? '' : 'disabled'}`;
-                    
-                    a.innerHTML = `
-                        <div class="talle-number">${talle.numero}</div>
-                        <div class="talle-info">
-                            CINTURA ${talle.cintura}<br>
-                            CADERA ${talle.cadera}
-                        </div>
-                    `;
-
-                    if (disponible) {
-                        a.href = `https://margusoficial.com/marcas/${marca}/?Talles=${talle.numero}`;
-                        a.target = '_blank';
-                    } else {
-                        a.onclick = (e) => e.preventDefault();
-                    }
-
-                    grid.appendChild(a);
-                });
+                renderTalles(tallesDisponibles);
 
             } catch (error) {
                 document.getElementById('tallesGrid').innerHTML = 
@@ -234,7 +248,36 @@
             }
         }
 
-        cargarTalles();
+        function renderTalles(tallesDisponibles) {
+            const grid = document.getElementById('tallesGrid');
+            grid.innerHTML = '';
+
+            todosLosTalles.forEach(talle => {
+                const disponible = tallesDisponibles.includes(talle.numero);
+                const a = document.createElement('a');
+                a.className = `talle-box ${disponible ? '' : 'disabled'}`;
+                
+                a.innerHTML = `
+                    <div class="talle-number">${talle.numero}</div>
+                    <div class="talle-info">
+                        CINTURA ${talle.cintura}<br>
+                        CADERA ${talle.cadera}
+                    </div>
+                `;
+
+                if (disponible) {
+                    a.href = `https://margusoficial.com/marcas/${marca}/?Talles=${talle.numero}`;
+                    a.target = '_blank';
+                } else {
+                    a.onclick = (e) => e.preventDefault();
+                }
+
+                grid.appendChild(a);
+            });
+        }
+
+        // Iniciar el scraping automático
+        scrapeTallesFromMargus();
     </script>
 </body>
 </html>
