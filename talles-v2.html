@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elegí tu talle</title>
+    <title>Talles Counter V2</title>
     <style>
         * {
             margin: 0;
@@ -12,8 +12,8 @@
         }
 
         body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -22,219 +22,131 @@
         }
 
         .container {
-            max-width: 1000px;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
             width: 100%;
         }
 
         h1 {
             text-align: center;
-            color: #333;
-            margin-bottom: 10px;
-            font-size: 2.5em;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .subtitle {
-            text-align: center;
-            color: #666;
+            color: #667eea;
             margin-bottom: 30px;
-            font-size: 1.2em;
+            font-size: 2.5em;
         }
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            padding: 20px;
-        }
-
-        .talle-box {
-            background: white;
-            border-radius: 15px;
-            padding: 40px 20px;
+        .counter-display {
             text-align: center;
+            margin: 30px 0;
+        }
+
+        .counter-number {
+            font-size: 4em;
+            font-weight: bold;
+            color: #764ba2;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        button {
+            flex: 1;
+            padding: 15px 30px;
+            font-size: 1.1em;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            border: 3px solid transparent;
-            text-decoration: none;
-            display: block;
+            color: white;
         }
 
-        .talle-box:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(255, 182, 193, 0.3);
-            border-color: #FFB6C1;
+        .btn-increment {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
 
-        .talle-box.disabled {
-            background: #f0f0f0;
-            color: #ccc;
-            cursor: not-allowed;
-            opacity: 0.5;
+        .btn-increment:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.6), 0 0 40px rgba(118, 75, 162, 0.4);
         }
 
-        .talle-box.disabled:hover {
-            transform: none;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            border-color: transparent;
+        .btn-decrement {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
         }
 
-        .talle-number {
-            font-size: 3em;
-            font-weight: bold;
-            color: #FFB6C1;
-            margin-bottom: 10px;
+        .btn-decrement:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px rgba(240, 147, 251, 0.6), 0 0 40px rgba(245, 87, 108, 0.4);
         }
 
-        .talle-box.disabled .talle-number {
-            color: #ccc;
+        .btn-reset {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            margin-top: 15px;
+            width: 100%;
         }
 
-        .talle-info {
-            font-size: 0.9em;
-            color: #666;
-            line-height: 1.5;
+        .btn-reset:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px rgba(79, 172, 254, 0.6), 0 0 40px rgba(0, 242, 254, 0.4);
         }
 
-        .talle-box.disabled .talle-info {
-            color: #ccc;
+        button:active {
+            transform: translateY(0);
         }
 
-        .heart-container {
-            text-align: center;
-            margin-top: 40px;
-        }
-
-        .heart-container img {
-            max-width: 200px;
-            height: auto;
-        }
-
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 1.8em;
-            }
-
-            .subtitle {
-                font-size: 1em;
-            }
-
-            .grid {
-                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-                gap: 15px;
-            }
-
-            .talle-number {
-                font-size: 2.5em;
-            }
-        }
-
-        .loading {
+        .label {
             text-align: center;
             color: #666;
-            font-size: 1.5em;
-            padding: 50px;
-        }
-
-        .error {
-            text-align: center;
-            color: #FFB6C1;
             font-size: 1.2em;
-            padding: 50px;
+            margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Elegí tu talle</h1>
-        <p class="subtitle">Hacé clic en tu talle según tus medidas</p>
-        <div class="grid" id="tallesGrid">
-            <div class="loading">Cargando talles disponibles...</div>
-        </div>
+        <h1>✨ Talles Counter V2 ✨</h1>
         
-        <div class="heart-container">
-            <img src="https://i.imgur.com/M2MYa5q.png" alt="Heart">
+        <div class="counter-display">
+            <div class="label">Current Count</div>
+            <div class="counter-number" id="counter">0</div>
         </div>
+
+        <div class="button-group">
+            <button class="btn-increment" onclick="increment()">+ Increment</button>
+            <button class="btn-decrement" onclick="decrement()">- Decrement</button>
+        </div>
+
+        <button class="btn-reset" onclick="reset()">🔄 Reset</button>
     </div>
 
     <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        const marca = urlParams.get('marca');
+        let count = 0;
+        const counterElement = document.getElementById('counter');
 
-        const todosLosTalles = [
-            { numero: 34, cintura: "65-68", cadera: "88-92" },
-            { numero: 36, cintura: "69-73", cadera: "93-95" },
-            { numero: 38, cintura: "74-77", cadera: "96-99" },
-            { numero: 40, cintura: "78-80", cadera: "100-103" },
-            { numero: 42, cintura: "82-84", cadera: "104-106" },
-            { numero: 44, cintura: "85-88", cadera: "108-110" },
-            { numero: 46, cintura: "89-92", cadera: "111-114" },
-            { numero: 48, cintura: "93-96", cadera: "115-118" },
-            { numero: 50, cintura: "97-100", cadera: "119-122" },
-            { numero: 52, cintura: "101-105", cadera: "124-128" },
-            { numero: 54, cintura: "106-109", cadera: "127-132" },
-            { numero: 56, cintura: "110-115", cadera: "133-137" },
-            { numero: 58, cintura: "116-120", cadera: "138-143" },
-            { numero: 60, cintura: "121-130", cadera: "144-150" },
-            { numero: 62, cintura: "112-135", cadera: "151-155" },
-            { numero: 64, cintura: "136-140", cadera: "156-160" }
-        ];
-
-        async function cargarTalles() {
-            try {
-                const response = await fetch('talles-data.json');
-                const tallesData = await response.json();
-                
-                if (!marca) {
-                    document.getElementById('tallesGrid').innerHTML = 
-                        '<div class="error">Error: No se especificó una marca en la URL</div>';
-                    return;
-                }
-
-                const tallesDisponibles = tallesData[marca];
-                
-                if (!tallesDisponibles) {
-                    document.getElementById('tallesGrid').innerHTML = 
-                        '<div class="error">Error: Marca no encontrada</div>';
-                    return;
-                }
-
-                const grid = document.getElementById('tallesGrid');
-                grid.innerHTML = '';
-
-                todosLosTalles.forEach(talle => {
-                    const disponible = tallesDisponibles.includes(talle.numero);
-                    const a = document.createElement('a');
-                    a.className = `talle-box ${disponible ? '' : 'disabled'}`;
-                    
-                    a.innerHTML = `
-                        <div class="talle-number">${talle.numero}</div>
-                        <div class="talle-info">
-                            CINTURA ${talle.cintura}<br>
-                            CADERA ${talle.cadera}
-                        </div>
-                    `;
-
-                    if (disponible) {
-                        a.href = `https://margusoficial.com/marcas/${marca}/?Talles=${talle.numero}`;
-                        a.target = '_blank';
-                    } else {
-                        a.onclick = (e) => e.preventDefault();
-                    }
-
-                    grid.appendChild(a);
-                });
-
-            } catch (error) {
-                document.getElementById('tallesGrid').innerHTML = 
-                    '<div class="error">Error al cargar los datos de talles</div>';
-                console.error('Error:', error);
-            }
+        function updateDisplay() {
+            counterElement.textContent = count;
         }
 
-        cargarTalles();
+        function increment() {
+            count++;
+            updateDisplay();
+        }
+
+        function decrement() {
+            count--;
+            updateDisplay();
+        }
+
+        function reset() {
+            count = 0;
+            updateDisplay();
+        }
     </script>
 </body>
 </html>
