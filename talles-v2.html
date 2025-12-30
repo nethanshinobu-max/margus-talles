@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guía de Talles - Margus</title>
+    <title>Interactive Love Letter</title>
     <style>
         * {
             margin: 0;
@@ -12,8 +12,8 @@
         }
 
         body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -22,211 +22,282 @@
         }
 
         .container {
-            max-width: 1000px;
+            max-width: 600px;
             width: 100%;
         }
 
-        h1 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 10px;
-            font-size: 2.5em;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .marca-name {
-            text-align: center;
-            color: #e91e63;
+        .envelope {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            perspective: 1000px;
+            cursor: pointer;
             margin-bottom: 30px;
-            font-size: 1.5em;
-            font-weight: bold;
         }
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
+        .envelope-wrapper {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+        }
+
+        .envelope.opened .envelope-wrapper {
+            transform: rotateX(-180deg);
+        }
+
+        .envelope-front, .envelope-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        .envelope-front {
+            background: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+        }
+
+        .envelope-back {
+            background: #f8f9fa;
+            transform: rotateX(180deg);
+            padding: 40px;
+            overflow-y: auto;
+        }
+
+        .seal {
+            width: 80px;
+            height: 80px;
+            background: #FFB6C1;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(255, 182, 193, 0.4);
+            transition: all 0.3s;
+        }
+
+        .seal:hover {
+            background: #FF91A4;
+            transform: scale(1.1);
+        }
+
+        .seal::before {
+            content: '💌';
+            font-size: 40px;
+        }
+
+        .instruction {
+            color: #333;
+            font-size: 18px;
+            text-align: center;
+            font-style: italic;
+        }
+
+        .letter-content {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            line-height: 1.8;
+            color: #333;
+        }
+
+        .letter-content h2 {
+            color: #FFB6C1;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .letter-content p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        .signature {
+            text-align: right;
+            font-style: italic;
+            margin-top: 30px;
+            color: #FFB6C1;
+        }
+
+        .floating-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            opacity: 0;
+            animation: float 6s infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .reset-btn {
+            display: none;
+            margin: 20px auto;
+            padding: 12px 30px;
+            background: #FFB6C1;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 182, 193, 0.4);
+            transition: all 0.3s;
+        }
+
+        .reset-btn:hover {
+            background: #FF91A4;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 145, 164, 0.4);
+        }
+
+        .reset-btn.show {
+            display: block;
+        }
+
+        .svg-heart-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 30px;
             padding: 20px;
         }
 
-        .talle-box {
-            background: white;
-            border-radius: 15px;
-            padding: 40px 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            border: 3px solid transparent;
+        .svg-heart {
+            width: 100px;
+            height: 100px;
+            fill: #FFB6C1;
+            filter: drop-shadow(0 4px 15px rgba(255, 182, 193, 0.4));
+            animation: pulse 2s ease-in-out infinite;
         }
 
-        .talle-box:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(233, 30, 99, 0.3);
-            border-color: #e91e63;
-        }
-
-        .talle-box.disabled {
-            background: #f0f0f0;
-            color: #ccc;
-            cursor: not-allowed;
-            opacity: 0.5;
-        }
-
-        .talle-box.disabled:hover {
-            transform: none;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            border-color: transparent;
-        }
-
-        .talle-number {
-            font-size: 3em;
-            font-weight: bold;
-            color: #e91e63;
-            margin-bottom: 10px;
-        }
-
-        .talle-box.disabled .talle-number {
-            color: #ccc;
-        }
-
-        .talle-info {
-            font-size: 0.9em;
-            color: #666;
-            line-height: 1.5;
-        }
-
-        .talle-box.disabled .talle-info {
-            color: #ccc;
-        }
-
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 1.8em;
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
             }
-
-            .marca-name {
-                font-size: 1.2em;
-            }
-
-            .grid {
-                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-                gap: 15px;
-            }
-
-            .talle-number {
-                font-size: 2.5em;
+            50% {
+                transform: scale(1.1);
             }
         }
 
-        .loading {
-            text-align: center;
-            color: #666;
-            font-size: 1.5em;
-            padding: 50px;
-        }
-
-        .error {
-            text-align: center;
-            color: #e91e63;
-            font-size: 1.2em;
-            padding: 50px;
+        @media (max-width: 600px) {
+            .envelope {
+                height: 350px;
+            }
+            
+            .letter-content {
+                padding: 20px;
+                font-size: 14px;
+            }
         }
     </style>
 </head>
 <body>
+    <div class="floating-hearts" id="floatingHearts"></div>
+    
     <div class="container">
-        <h1>Guía de Talles</h1>
-        <div class="marca-name" id="marcaName">Cargando...</div>
-        <div class="grid" id="tallesGrid">
-            <div class="loading">Cargando talles disponibles...</div>
+        <div class="envelope" id="envelope">
+            <div class="envelope-wrapper">
+                <div class="envelope-front">
+                    <div class="seal"></div>
+                    <p class="instruction">Click to open the envelope</p>
+                </div>
+                <div class="envelope-back">
+                    <div class="letter-content">
+                        <h2>My Dearest Love</h2>
+                        <p>Every moment with you feels like a beautiful dream that I never want to wake up from. Your smile lights up my darkest days, and your laughter is the sweetest melody I've ever heard.</p>
+                        <p>I cherish every conversation, every shared silence, and every adventure we embark on together. You've shown me what it means to truly love and be loved in return.</p>
+                        <p>Thank you for being my partner, my best friend, and my greatest inspiration. I promise to stand by your side through every season of life, celebrating your joys and supporting you through challenges.</p>
+                        <p>Here's to our journey together, to the memories we've created, and to all the beautiful moments yet to come.</p>
+                        <p class="signature">Forever yours,<br>With all my love ❤️</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <button class="reset-btn" id="resetBtn">Close Letter</button>
+
+        <div class="svg-heart-container">
+            <svg class="svg-heart" viewBox="0 0 32 29.6" xmlns="http://www.w3.org/2000/svg">
+                <path d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2
+                c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z"/>
+            </svg>
         </div>
     </div>
 
     <script>
-        // Obtener parámetros de la URL
-        const urlParams = new URLSearchParams(window.location.search);
-        const marca = urlParams.get('marca');
+        // Envelope interaction
+        const envelope = document.getElementById('envelope');
+        const resetBtn = document.getElementById('resetBtn');
 
-        // Todos los talles posibles
-        const todosLosTalles = [
-            { numero: 34, cintura: "65-68", cadera: "88-92" },
-            { numero: 36, cintura: "69-72", cadera: "93-96" },
-            { numero: 38, cintura: "73-76", cadera: "97-100" },
-            { numero: 40, cintura: "77-80", cadera: "101-104" },
-            { numero: 42, cintura: "82-84", cadera: "104-106" },
-            { numero: 44, cintura: "85-88", cadera: "107-110" },
-            { numero: 46, cintura: "89-92", cadera: "111-114" },
-            { numero: 48, cintura: "93-96", cadera: "115-118" },
-            { numero: 50, cintura: "97-100", cadera: "119-122" },
-            { numero: 52, cintura: "101-104", cadera: "123-126" },
-            { numero: 54, cintura: "105-108", cadera: "127-130" },
-            { numero: 56, cintura: "109-112", cadera: "131-134" },
-            { numero: 58, cintura: "113-116", cadera: "135-138" },
-            { numero: 60, cintura: "117-120", cadera: "139-142" },
-            { numero: 62, cintura: "121-124", cadera: "143-146" },
-            { numero: 64, cintura: "125-128", cadera: "147-150" }
-        ];
+        envelope.addEventListener('click', function() {
+            if (!this.classList.contains('opened')) {
+                this.classList.add('opened');
+                resetBtn.classList.add('show');
+                createFloatingHearts();
+            }
+        });
 
-        // Cargar datos de talles disponibles
-        async function cargarTalles() {
-            try {
-                const response = await fetch('talles-data.json');
-                const tallesData = await response.json();
-                
-                if (!marca) {
-                    document.getElementById('tallesGrid').innerHTML = 
-                        '<div class="error">Error: No se especificó una marca en la URL</div>';
-                    return;
-                }
+        resetBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            envelope.classList.remove('opened');
+            this.classList.remove('show');
+        });
 
-                const tallesDisponibles = tallesData[marca];
-                
-                if (!tallesDisponibles) {
-                    document.getElementById('tallesGrid').innerHTML = 
-                        '<div class="error">Error: Marca no encontrada</div>';
-                    return;
-                }
-
-                // Mostrar nombre de la marca
-                document.getElementById('marcaName').textContent = marca.toUpperCase().replace('-', ' ');
-
-                // Generar grid de talles
-                const grid = document.getElementById('tallesGrid');
-                grid.innerHTML = '';
-
-                todosLosTalles.forEach(talle => {
-                    const disponible = tallesDisponibles.includes(talle.numero);
-                    const div = document.createElement('div');
-                    div.className = `talle-box ${disponible ? '' : 'disabled'}`;
+        // Floating hearts animation
+        function createFloatingHearts() {
+            const container = document.getElementById('floatingHearts');
+            const heartSymbols = ['❤️', '💕', '💖', '💗', '💓', '💝'];
+            
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.className = 'heart';
+                    heart.textContent = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+                    heart.style.left = Math.random() * 100 + '%';
+                    heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
+                    heart.style.animationDelay = Math.random() * 2 + 's';
+                    container.appendChild(heart);
                     
-                    div.innerHTML = `
-                        <div class="talle-number">${talle.numero}</div>
-                        <div class="talle-info">
-                            CINTURA ${talle.cintura}<br>
-                            CADERA ${talle.cadera}
-                        </div>
-                    `;
-
-                    if (disponible) {
-                        div.onclick = () => {
-                            window.location.href = `https://margusoficial.com/marcas/${marca}/?Talles=${talle.numero}`;
-                        };
-                    }
-
-                    grid.appendChild(div);
-                });
-
-            } catch (error) {
-                document.getElementById('tallesGrid').innerHTML = 
-                    '<div class="error">Error al cargar los datos de talles</div>';
-                console.error('Error:', error);
+                    setTimeout(() => {
+                        heart.remove();
+                    }, 8000);
+                }, i * 200);
             }
         }
-
-        // Cargar talles al iniciar
-        cargarTalles();
     </script>
 </body>
 </html>
