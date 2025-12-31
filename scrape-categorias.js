@@ -3,7 +3,11 @@ const fs = require('fs');
 
 function httpsGet(url) {
   return new Promise((resolve, reject) => {
-    https.get(url, { headers: { 'User-Agent':  'Mozilla/5.0' } }, (res) => {
+    https.get(url, { 
+      headers: { 
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+      } 
+    }, (res) => {
       let data = '';
       res.on('data', chunk => data += chunk);
       res.on('end', () => resolve(data));
@@ -11,63 +15,61 @@ function httpsGet(url) {
   });
 }
 
-async function scrapeCategoria(url) {
+async function scrapeUrlsCategorias() {
+  console.log('🔍 Scrapeando URLs desde margusoficial. com/productos/\n');
+  
   try {
-    const html = await httpsGet(url);
+    const html = await httpsGet('https://margusoficial.com/productos/');
     
-    const talles = [];
-    const regex = /data-filter-name="Talles"\s+data-filter-value="(\d+)"/g;
+    console.log('📄 HTML obtenido, largo:', html.length);
+    
+    // Buscar links que sean categorías
+    const regex = /href=["'](https?:\/\/margusoficial\.com\/[^"']+?)["']/gi;
+    const urlsEncontradas = new Set();
     let match;
     
     while ((match = regex.exec(html)) !== null) {
-      const talleNum = parseInt(match[1]);
-      if (!isNaN(talleNum) && talleNum >= 34 && talleNum <= 64) {
-        talles.push(talleNum);
+      let url = match[1];
+      
+      // Normalizar URL
+      url = url.replace(/\/$/, ''); // Quitar / final
+      
+      // Filtrar solo categorías válidas
+      if (url.includes('/catalogo/') || 
+          (url.split('/').length >= 4 && 
+           ! url.includes('/productos') && 
+           !url.includes('/carrito') && 
+           !url.includes('/mi-cuenta') &&
+           !url.includes('/finalizar-compra') &&
+           !url.includes('? ') &&
+           !url.includes('#'))) {
+        
+        // Agregar / al final
+        if (!url.endsWith('/')) url += '/';
+        urlsEncontradas.add(url);
       }
     }
     
-    return [... new Set(talles)].sort((a, b) => a - b);
-  } catch (error) {
-    console.error(`❌ Error: `, error.message);
-    return [];
-  }
-}
-
-async function main() {
-  console.log('🚀 Iniciando scraper de categorías...\n');
-  
-  const urls = fs.readFileSync('categorias-urls.txt', 'utf-8')
-    .split('\n')
-    .map(line => line.trim())
-    .filter(line => line. length > 0);
-  
-  console.log(`📋 Total:  ${urls.length} categorías\n`);
-  
-  const resultado = {};
-  
-  for (let i = 0; i < urls.length; i++) {
-    const url = urls[i];
-    const nombre = url.split('/').filter(x => x).pop();
+    const urls = Array.from(urlsEncontradas).sort();
     
-    console.log(`[${i + 1}/${urls.length}] ${nombre}...`);
+    console.log(`\n✅ Encontradas ${urls.length} URLs:\n`);
+    urls.forEach((url, i) => {
+      console.log(`${i + 1}. ${url}`);
+    });
     
-    const talles = await scrapeCategoria(url);
-    resultado[nombre] = talles;
-    
-    if (talles.length > 0) {
-      console.log(`   ✅ ${talles.join(', ')}`);
+    if (urls.length === 0) {
+      console.log('\n⚠️ No se encontraron URLs.  Guardando página HTML para debug...');
+      fs.writeFileSync('debug-productos.html', html);
+      console.log('✅ Guardado en debug-productos.html');
     } else {
-      console.log(`   ⚠️ Sin talles`);
+      fs.writeFileSync('categorias-urls-nuevas.txt', urls.join('\n'));
+      console.log('\n✅ Guardado en categorias-urls-nuevas. txt');
     }
     
-    await new Promise(resolve => setTimeout(resolve, 1000));
+  } catch (error) {
+    console.error('❌ Error:', error.message);
+    process.exit(1);
   }
-  
-  fs.writeFileSync('categorias-data.json', JSON.stringify(resultado, null, 2));
-  console.log('\n✅ LISTO! ');
 }
 
-main().catch(error => {
-  console.error('💥 Error:', error);
-  process.exit(1);
-});
+scrapeUrlsCategorias();
