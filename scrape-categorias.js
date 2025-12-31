@@ -39,7 +39,7 @@ async function main() {
   const urls = fs.readFileSync('categorias-urls.txt', 'utf-8')
     .split('\n')
     .map(line => line.trim())
-    .filter(line => line.length > 0);
+    .filter(line => line. length > 0);
   
   console.log(`📋 Total:  ${urls.length} categorías\n`);
   
@@ -64,7 +64,7 @@ async function main() {
   }
   
   fs.writeFileSync('categorias-data.json', JSON.stringify(resultado, null, 2));
-  console.log('\n✅ LISTO!');
+  console.log('\n✅ LISTO! ');
 }
 
 main().catch(error => {
