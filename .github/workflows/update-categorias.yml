@@ -1,30 +1,27 @@
-name: Update Categorías Data
+name: 📂 Update Talles por Categoría
 
-on: 
-  workflow_dispatch:
+on:   
+  workflow_dispatch: 
 
 jobs:
   scrape-and-update:
     runs-on: ubuntu-latest
     
     steps:
-      - name: Checkout repository
-        uses:  actions/checkout@v3
+      - name:  Checkout repository
+        uses: actions/checkout@v3
       
-      - name: Setup Node. js
+      - name: Setup Node.js
         uses: actions/setup-node@v3
-        with:
+        with: 
           node-version: '18'
       
-      - name: Install dependencies
-        run: npm install jsdom
-      
       - name: Run scraper
-        run: node scrape-categorias. js
+        run: node scrape-categorias.js
       
-      - name:  Commit and push if changed
+      - name: Commit and push if changed
         run: |
-          git config --global user.name 'github-actions[bot]'
+          git config --global user. name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git add categorias-data.json
           git diff --quiet && git diff --staged --quiet || (git commit -m "Update categorias-data.json" && git push)
