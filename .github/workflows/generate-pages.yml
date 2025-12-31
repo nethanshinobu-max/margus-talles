@@ -1,7 +1,7 @@
 name: 🎨 Generar Páginas por Categoría
 
 on:
-  workflow_dispatch: 
+  workflow_dispatch:  
   push:
     paths:
       - 'categorias-urls.txt'
@@ -26,5 +26,6 @@ jobs:
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git pull --rebase origin main
           git add *.html
           git diff --quiet && git diff --staged --quiet || (git commit -m "Generate category pages" && git push)
