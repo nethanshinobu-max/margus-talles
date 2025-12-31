@@ -1,41 +1,44 @@
-const axios = require('axios');
-const cheerio = require('cheerio');
-const fs = require('fs');
+const { JSDOM } = require('jsdom');
 
 async function scrapeTalles(url) {
     try {
         console.log(`📡 Scrapeando: ${url}`);
-        const response = await axios.get(url, {
+        
+        const response = await fetch(url, {
             headers: {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
-            },
-            timeout: 15000
-        });
-        
-        const html = response.data;
-        const $ = cheerio.load(html);
-        
-        const talles = new Set();
-        
-        // Método 1: Buscar checkboxes
-        $('input[type="checkbox"]').each((i, elem) => {
-            const value = $(elem).val();
-            const name = $(elem).attr('name');
-            
-            if (name && name.includes('Talles')) {
-                const numero = parseInt(value);
-                if (!isNaN(numero) && numero >= 34 && numero <= 64) {
-                    talles.add(numero);
-                }
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
             }
         });
         
-        // Método 2: Buscar en labels con números
-        $('label').each((i, elem) => {
-            const text = $(elem).text().trim();
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const html = await response.text();
+        const dom = new JSDOM(html);
+        const document = dom.window.document;
+        
+        const talles = new Set();
+        
+        // Método 1: Buscar checkboxes con name="Talles"
+        const checkboxes = document.querySelectorAll('input[type="checkbox"][name*="Talles"]');
+        checkboxes.forEach(checkbox => {
+            const value = parseInt(checkbox.value);
+            if (!isNaN(value) && value >= 34 && value <= 64) {
+                talles.add(value);
+            }
+        });
+        
+        // Método 2: Buscar en labels
+        const labels = document.querySelectorAll('label');
+        labels.forEach(label => {
+            const text = label.textContent.trim();
             const numero = parseInt(text);
             if (!isNaN(numero) && numero >= 34 && numero <= 64) {
-                talles.add(numero);
+                const checkbox = label.previousElementSibling;
+                if (checkbox && checkbox.type === 'checkbox') {
+                    talles.add(numero);
+                }
             }
         });
         
@@ -50,6 +53,7 @@ async function scrapeTalles(url) {
 async function main() {
     console.log('🚀 Iniciando scraper de categorías...\n');
     
+    const fs = require('fs');
     const urls = fs.readFileSync('categorias-urls.txt', 'utf-8')
         .split('\n')
         .map(line => line.trim())
