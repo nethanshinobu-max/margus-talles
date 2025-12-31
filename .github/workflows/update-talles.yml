@@ -1,29 +1,27 @@
-name: Update Talles
+name: Update Categorías Data
 
-on: 
-  schedule:
-    - cron: '0 3 * * *'
+on:  
   workflow_dispatch:
 
 jobs:
-  update: 
+  scrape-and-update:
     runs-on: ubuntu-latest
     
     steps:
       - name: Checkout repository
-        uses:  actions/checkout@v4
+        uses: actions/checkout@v3
       
       - name: Setup Node. js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v3
         with:
           node-version: '18'
       
-      - name: Run scrape
-        run: node scrape-talles.js
+      - name: Run scraper
+        run: node scrape-categorias.js
       
-      - name:  Commit and push changes
+      - name:  Commit and push if changed
         run: |
-          git config --local user.email "github-actions[bot]@users.noreply.github. com"
-          git config --local user.name "github-actions[bot]"
-          git add talles-data.json
-          git diff --quiet && git diff --staged --quiet || (git commit -m "🤖 Update talles data" && git push)
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users. noreply.github.com'
+          git add categorias-data.json
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Update categorias-data.json" && git push)
