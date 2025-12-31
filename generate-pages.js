@@ -1,16 +1,7 @@
 const fs = require('fs');
-const https = require('https');
 
 // Leer las URLs de categorías
 const urls = fs.readFileSync('categorias-urls.txt', 'utf8').trim().split('\n');
-
-// Mapeo de URLs a nombres de archivo
-const categorias = urls.map(url => {
-  const parts = url.split('/').filter(x => x);
-  const categoria = parts[parts.length - 1];
-  const nombre = categoria.replace(/1$/, '').replace(/-/g, '-');
-  return { categoria, nombre, url };
-});
 
 // Template HTML para cada categoría
 function generarHTML(categoria, nombreCategoria) {
@@ -165,7 +156,6 @@ function generarHTML(categoria, nombreCategoria) {
         <div class="loading" id="loading">⏳ Cargando talles...</div>
         
         <div class="grid" id="tallesGrid" style="display: none;">
-            <!-- Los cuadrados se generan con JavaScript -->
         </div>
         
         <div class="heart-container">
@@ -247,15 +237,15 @@ function generarHTML(categoria, nombreCategoria) {
 // Generar archivos HTML
 console.log('🚀 Generando páginas HTML...\n');
 
-categorias.forEach(({ categoria, nombre }) => {
+urls.forEach(url => {
+  const parts = url.split('/').filter(x => x);
+  const categoria = parts[parts.length - 1];
+  const nombre = categoria;
+  
   const html = generarHTML(categoria, nombre);
   const filename = `${nombre}.html`;
   fs.writeFileSync(filename, html);
-  console.log(`✅ Creado: ${filename} → ${categoria}`);
+  console.log(`✅ Creado: ${filename}`);
 });
 
 console.log('\n🎉 ¡Todas las páginas generadas!');
-console.log('\n📋 URLs generadas:');
-categorias.forEach(({ nombre }) => {
-  console.log(`https://nethanshinobu-max.github.io/margus-talles/${nombre}.html`);
-});
