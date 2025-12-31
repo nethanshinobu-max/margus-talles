@@ -4,7 +4,11 @@ const fs = require('fs');
 const urls = fs.readFileSync('categorias-urls.txt', 'utf8').trim().split('\n');
 
 // Template HTML para cada categoría
-function generarHTML(categoria, nombreCategoria) {
+function generarHTML(categoria, nombreCategoria, urlCompleta) {
+  // Detectar si es hombre o mujer de la URL original
+  const esHombre = urlCompleta.includes('/hombre/');
+  const baseUrl = esHombre ? 'https://margusoficial.com/catalogo/hombre' : 'https://margusoficial.com/catalogo/mujer1';
+  
   return `<!DOCTYPE html>
 <html lang="es">
 <head>
@@ -165,6 +169,7 @@ function generarHTML(categoria, nombreCategoria) {
 
     <script>
         const categoria = '${categoria}';
+        const baseUrl = '${baseUrl}';
 
         const todosLosTalles = [
             { numero: 34, cintura: "65-68", cadera: "88-92" },
@@ -203,7 +208,7 @@ function generarHTML(categoria, nombreCategoria) {
                     const div = document.createElement('a');
                     
                     if (disponible) {
-                        div.href = \`https://margusoficial.com/catalogo/mujer1/\${categoria}/?Talles=\${talle.numero}\`;
+                        div.href = \`\${baseUrl}/\${categoria}/?Talles=\${talle.numero}\`;
                         div.className = 'talle-box';
                         div.target = '_blank';
                     } else {
@@ -242,7 +247,7 @@ urls.forEach(url => {
   const categoria = parts[parts.length - 1];
   const nombre = categoria;
   
-  const html = generarHTML(categoria, nombre);
+  const html = generarHTML(categoria, nombre, url);
   const filename = `${nombre}.html`;
   fs.writeFileSync(filename, html);
   console.log(`✅ Creado: ${filename}`);
