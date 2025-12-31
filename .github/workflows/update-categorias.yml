@@ -1,6 +1,6 @@
 name: 📂 Update Talles por Categoría
 
-on:   
+on:
   workflow_dispatch: 
 
 jobs:
@@ -8,12 +8,12 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - name:  Checkout repository
+      - name: Checkout repository
         uses: actions/checkout@v3
       
-      - name: Setup Node.js
+      - name: Setup Node. js
         uses: actions/setup-node@v3
-        with: 
+        with:
           node-version: '18'
       
       - name: Run scraper
