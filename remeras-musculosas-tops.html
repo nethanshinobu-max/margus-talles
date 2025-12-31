@@ -158,6 +158,7 @@
 
     <script>
         const categoria = 'remeras-musculosas-tops';
+        const baseUrl = 'https://margusoficial.com/catalogo/mujer1';
 
         const todosLosTalles = [
             { numero: 34, cintura: "65-68", cadera: "88-92" },
@@ -196,7 +197,7 @@
                     const div = document.createElement('a');
                     
                     if (disponible) {
-                        div.href = `https://margusoficial.com/catalogo/mujer1/${categoria}/?Talles=${talle.numero}`;
+                        div.href = `${baseUrl}/${categoria}/?Talles=${talle.numero}`;
                         div.className = 'talle-box';
                         div.target = '_blank';
                     } else {
