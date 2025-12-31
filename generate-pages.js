@@ -7,7 +7,7 @@ const urls = fs.readFileSync('categorias-urls.txt', 'utf8').trim().split('\n');
 function generarHTML(categoria, nombreCategoria, urlCompleta) {
   // Detectar si es hombre o mujer de la URL original
   const esHombre = urlCompleta.includes('/hombre/');
-  const baseUrl = esHombre ? 'https://margusoficial.com/catalogo/hombre' : 'https://margusoficial.com/catalogo/mujer1';
+  const baseUrl = esHombre ? 'https://margusoficial.com/catalogo' : 'https://margusoficial.com/catalogo/mujer1';
   
   return `<!DOCTYPE html>
 <html lang="es">
